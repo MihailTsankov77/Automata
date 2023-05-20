@@ -37,7 +37,8 @@ private:
 public:
     explicit MyVector(size_t) noexcept;
 
-    virtual void push(Type) noexcept;
+    virtual void push(Type&&) noexcept;
+    virtual void push(Type&) noexcept;
 
     const Type &peek(size_t) const;
 
@@ -59,7 +60,7 @@ public:
     size_t size() const noexcept;
 
 private:
-    void assertInBounds(size_t);
+    void assertInBounds(size_t) const;
 };
 
 template<class Type>
@@ -133,13 +134,23 @@ MyVector<Type>::MyVector(size_t capacity) noexcept:capacity(capacity) {
 }
 
 template<class Type>
-void MyVector<Type>::push(Type element) noexcept {
+void MyVector<Type>::push(Type&& element) noexcept {
     if (size() >= capacity) {
         resize(capacity * resizeValue);
     }
 
     arr[length++] = element;
 }
+
+template<class Type>
+void MyVector<Type>::push(Type & element) noexcept {
+    if (size() >= capacity) {
+        resize(capacity * resizeValue);
+    }
+
+    arr[length++] = element;
+}
+
 
 template<class Type>
 const Type &MyVector<Type>::peek(size_t index) const {
@@ -198,7 +209,7 @@ size_t MyVector<Type>::size() const noexcept {
 }
 
 template<class Type>
-void MyVector<Type>::assertInBounds(size_t num) {
+void MyVector<Type>::assertInBounds(size_t num) const{
     if (num >= size()) {
         throw std::range_error("Vector outside of bounds");
     }
