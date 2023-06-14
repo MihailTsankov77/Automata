@@ -23,26 +23,30 @@ private:
     void free();
 
 public:
-    explicit MySharedPointer(Type*);
+    explicit MySharedPointer(Type *);
 
     void reset();
 
-    const Type& operator*() const;
+    const Type &operator*() const;
 
     Type &operator*();
+
+    const Type *operator->() const;
+
+    Type *operator->();
 
     bool operator!() const;
 
 };
 
 template<class Type>
-MySharedPointer<Type>::MySharedPointer(const MySharedPointer & other) {
+MySharedPointer<Type>::MySharedPointer(const MySharedPointer &other) {
     copyFrom(other);
 }
 
 template<class Type>
-MySharedPointer<Type> &MySharedPointer<Type>::operator=(const MySharedPointer & other) {
-    if(this!=&other){
+MySharedPointer<Type> &MySharedPointer<Type>::operator=(const MySharedPointer &other) {
+    if (this != &other) {
         free();
         copyFrom(other);
     }
@@ -56,21 +60,21 @@ MySharedPointer<Type>::~MySharedPointer() {
 }
 
 template<class Type>
-void MySharedPointer<Type>::copyFrom(const MySharedPointer & other) {
-    counter =  other.counter;
+void MySharedPointer<Type>::copyFrom(const MySharedPointer &other) {
+    counter = other.counter;
     ptr = other.ptr;
 }
 
 template<class Type>
 void MySharedPointer<Type>::free() {
     counter.decrement();
-    if(counter.shouldDelete()){
+    if (counter.shouldDelete()) {
         delete ptr;
     }
 }
 
 template<class Type>
-MySharedPointer<Type>::MySharedPointer(Type * value) {
+MySharedPointer<Type>::MySharedPointer(Type *value) {
     ptr = value;
     counter.increment();
 }
@@ -89,6 +93,17 @@ template<class Type>
 Type &MySharedPointer<Type>::operator*() {
     return *ptr;
 }
+
+template<class Type>
+const Type *MySharedPointer<Type>::operator->() const {
+    return ptr;
+}
+
+template<class Type>
+Type *MySharedPointer<Type>::operator->() {
+    return ptr;
+}
+
 
 template<class Type>
 bool MySharedPointer<Type>::operator!() const {

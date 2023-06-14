@@ -6,8 +6,8 @@ set(CMAKE_CXX_STANDARD 14)
 include_directories(.)
 
 add_executable(Automata
-        MyPair.hpp
-        MyReferenceCounter.cpp
-        MyReferenceCounter.h
-        MySharedPointer.hpp
-        MyVector.hpp)
+        BaseComponents/MyPair.hpp
+        BaseComponents/MyReferenceCounter.cpp
+        BaseComponents/MyReferenceCounter.h
+        BaseComponents/MySharedPointer.hpp
+        BaseComponents/MyVector.hpp State.h State.cpp)
