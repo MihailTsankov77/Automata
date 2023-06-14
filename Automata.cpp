@@ -82,4 +82,16 @@ void Automata::makeNotFinal(State::Id id) {
     states[index]->makeNotFinal();
 }
 
+Automata Automata::onion(const Automata& left, const Automata & right) {
+    Automata toReturn = left;
+    toReturn.onion(right);
+    return toReturn;
+}
+
+void Automata::onion(const Automata & other) {
+    for (int i = 0; i < other.states.size(); ++i) {
+        states.push(other.states[i]);
+    }
+}
+
 

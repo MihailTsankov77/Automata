@@ -37,5 +37,10 @@ public:
     bool isEmpty() const;
     bool accepts(const std::string&) const;
 
+
+public:
+    static Automata onion(const Automata&, const Automata&);
+    void onion(const Automata&);
 };
+
 
