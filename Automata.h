@@ -55,6 +55,10 @@ public:
 
     void kleeneStar();
 
+    static Automata concat(const Automata &, const Automata &);
+
+    void concat(const Automata &);
+
 private:
 //    void cleanAutomata();
 };

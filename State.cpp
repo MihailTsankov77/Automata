@@ -75,16 +75,13 @@ bool State::accepts(std::string input) const {
             Steps nextSteps = connections[i].getValue();
 
             for (int j = 0; j < nextSteps.size(); ++j) {
-                if(nextSteps[j].expired()){
-                    continue;
-                }
+                if (std::shared_ptr<State> thisStep = nextSteps[j].lock()) {
 
-                std::shared_ptr<State> thisStep = nextSteps[j].lock();
+                    bool isAccepted = thisStep->accepts(nextInput);
 
-                bool isAccepted = thisStep->accepts(nextInput);
-
-                if (isAccepted) {
-                    return true;
+                    if (isAccepted) {
+                        return true;
+                    }
                 }
             }
 
@@ -103,7 +100,8 @@ void State::cleanConnections() {
     //TODO: implement
 }
 
-void State::addConnections(const State::Connections & _connections) {
+void State::addConnections(const State::Connections &_connections) {
+    //TODO: clean the indentical connections
     // TODO: implement Concat
     for (int i = 0; i < _connections.size(); ++i) {
         connections.push(_connections[i]);

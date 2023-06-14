@@ -96,7 +96,7 @@ void Automata::onion(const Automata &other) {
 
 Automata Automata::kleeneStar(const Automata &other) {
     Automata toReturn = other;
-    toReturn.clinyStar();
+    toReturn.kleeneStar();
     return toReturn;
 }
 
@@ -121,7 +121,7 @@ void Automata::kleeneStar() {
     addState(id, begging | final);
 
     for (int i = 0; i < states.size(); ++i) {
-        if(states[i]->isFinal()){
+        if (states[i]->isFinal()) {
             states[i]->addConnections(allBeggingConnections);
         }
     }
@@ -140,6 +140,50 @@ State::Id Automata::findSpareId() const {
         }
     }
 }
+
+Automata Automata::concat(const Automata &left, const Automata &right) {
+    Automata toReturn = left;
+    toReturn.concat(right);
+    return toReturn;
+}
+
+void Automata::concat(const Automata &other) {
+
+    State::Connections allBeggingConnections;
+    bool hasFinalBegging = false;
+    for (int i = 0; i < other.states.size(); ++i) {
+        if (other.states[i]->isBegging()) {
+            StatePtr begging = other.states[i];
+            begging->makeNotBegging();
+
+            if (!hasFinalBegging && begging->isFinal()) {
+                hasFinalBegging = true;
+            }
+
+            State::Connections beggingConnections = begging->getConnections();
+
+            //TODO: implement concat
+            for (int j = 0; j < beggingConnections.size(); ++j) {
+                allBeggingConnections.push(beggingConnections[i]);
+            }
+        }
+    }
+
+    for (int i = 0; i < states.size(); ++i) {
+        if (states[i]->isFinal()) {
+            if (!hasFinalBegging) {
+                states[i]->makeNotFinal();
+            }
+
+            states[i]->addConnections(allBeggingConnections);
+        }
+    }
+
+    // TODO
+//    cleanAutomata();
+}
+
+
 // TODO: Questionable
 //void Automata::cleanAutomata() {
 //    for (int i = 0; i < states.size(); ++i) {
