@@ -88,3 +88,17 @@ bool State::isFinal() const {
     return isStatus(final);
 }
 
+void State::addConnection(State::Connection& connection) {
+    for (int i = 0; i < connections.size(); ++i) {
+        if(connections[i].isThisKey(connection.getKey())){
+            //TODO: implement concat
+            Steps newSteps = connection.getValue();
+            for (int j = 0; j < newSteps.size(); ++j) {
+                connections[i].getValue().push(newSteps[i]);
+            }
+        }
+    }
+
+    connections.push(connection);
+}
+

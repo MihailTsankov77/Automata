@@ -61,5 +61,7 @@ public:
     void makeNotFinal();
 
     bool isFinal() const;
+
+    void addConnection(Connection&);
 };
 
