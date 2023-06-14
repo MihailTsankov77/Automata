@@ -1,7 +1,6 @@
 #pragma once
 
 #include <cstddef>
-#include <exception>
 #include <stdexcept>
 
 template<class Type>
@@ -37,12 +36,13 @@ private:
 public:
     explicit MyVector(size_t) noexcept;
 
-    virtual void push(Type&&) noexcept;
-    virtual void push(Type&) noexcept;
+    void push(Type &&) noexcept;
+
+    void push(Type &) noexcept;
 
     const Type &peek(size_t) const;
 
-    virtual void pop();
+    void pop();
 
 private:
     static const size_t resizeValue = 2;
@@ -103,7 +103,7 @@ MyVector<Type>::~MyVector() {
 
 template<class Type>
 void MyVector<Type>::copyFrom(const MyVector &other) noexcept {
-    arr = new Type [other.capacity];
+    arr = new Type[other.capacity];
     for (int i = 0; i < other.size(); ++i) {
         arr[i] = other.arr[i];
     }
@@ -134,7 +134,7 @@ MyVector<Type>::MyVector(size_t capacity) noexcept:capacity(capacity) {
 }
 
 template<class Type>
-void MyVector<Type>::push(Type&& element) noexcept {
+void MyVector<Type>::push(Type &&element) noexcept {
     if (size() >= capacity) {
         resize(capacity * resizeValue);
     }
@@ -143,7 +143,7 @@ void MyVector<Type>::push(Type&& element) noexcept {
 }
 
 template<class Type>
-void MyVector<Type>::push(Type & element) noexcept {
+void MyVector<Type>::push(Type &element) noexcept {
     if (size() >= capacity) {
         resize(capacity * resizeValue);
     }
@@ -209,7 +209,7 @@ size_t MyVector<Type>::size() const noexcept {
 }
 
 template<class Type>
-void MyVector<Type>::assertInBounds(size_t num) const{
+void MyVector<Type>::assertInBounds(size_t num) const {
     if (num >= size()) {
         throw std::range_error("Vector outside of bounds");
     }

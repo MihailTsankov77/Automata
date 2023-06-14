@@ -1,0 +1,3 @@
+/Users/mihail.tsankov/Projects/chess/Automata/cmake-build-debug/CMakeFiles/Automata.dir
+/Users/mihail.tsankov/Projects/chess/Automata/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/mihail.tsankov/Projects/chess/Automata/cmake-build-debug/CMakeFiles/rebuild_cache.dir
