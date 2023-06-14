@@ -27,12 +27,14 @@ public:
     //TODO: move??
 
     explicit State(Id);
+
     explicit State(Id, char);
 
 public:
     bool accepts(std::string) const;
 
     bool isSameId(Id) const;
+
 private:
     char status = 0;
 
@@ -55,11 +57,16 @@ public:
 
     bool isFinal() const;
 
-    void addConnection(char, const Step&);
+    void addConnection(char, const Step &);
+
+    void addConnections(const Connections &);
 
     void removeConnection(char, size_t);
 
     void cleanConnections();
+
+    const Connections &getConnections() const;
+
 
 };
 

@@ -52,10 +52,36 @@ void unionTest(){
     }
 }
 
+void kleeneStarTest(){
+    Automata dfa1;
 
+    dfa1.addState(0, begging);
+    dfa1.addState(1);
+    dfa1.addState(2, final);
+
+    dfa1.addConnection(0, 'a', 1);
+    dfa1.addConnection(1, 'b', 2);
+
+
+
+    Automata dfa = Automata::kleeneStar(dfa1);
+
+    if (dfa.accepts("abab")) {
+        std::cout << "ura";
+    } else {
+        std::cout << "keke";
+    }
+}
+
+void theDeathTest(void(*fun)()){
+    while (true){
+        fun();
+    }
+}
 
 int main() {
 
+//    theDeathTest(&kleeneStarTest);
 
 
     return 0;

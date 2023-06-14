@@ -103,3 +103,14 @@ void State::cleanConnections() {
     //TODO: implement
 }
 
+void State::addConnections(const State::Connections & _connections) {
+    // TODO: implement Concat
+    for (int i = 0; i < _connections.size(); ++i) {
+        connections.push(_connections[i]);
+    }
+}
+
+const State::Connections &State::getConnections() const {
+    return connections;
+}
+
