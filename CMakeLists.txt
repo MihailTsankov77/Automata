@@ -10,4 +10,4 @@ add_executable(Automata
         BaseComponents/MyReferenceCounter.cpp
         BaseComponents/MyReferenceCounter.h
         BaseComponents/MySharedPointer.hpp
-        BaseComponents/MyVector.hpp State.h State.cpp)
+        BaseComponents/MyVector.hpp State.h State.cpp main.cpp)

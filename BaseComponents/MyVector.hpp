@@ -38,7 +38,7 @@ public:
 
     void push(Type &&) noexcept;
 
-    void push(Type &) noexcept;
+    void push(const Type &) noexcept;
 
     const Type &peek(size_t) const;
 
@@ -143,7 +143,7 @@ void MyVector<Type>::push(Type &&element) noexcept {
 }
 
 template<class Type>
-void MyVector<Type>::push(Type &element) noexcept {
+void MyVector<Type>::push(const Type &element) noexcept {
     if (size() >= capacity) {
         resize(capacity * resizeValue);
     }

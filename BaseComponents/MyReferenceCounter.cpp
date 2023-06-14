@@ -3,7 +3,7 @@
 
 MyReferenceCounter::MyReferenceCounter() {
     count = new size_t;
-    *count = 0;
+    *count = 1;
 }
 
 MyReferenceCounter::MyReferenceCounter(const MyReferenceCounter &other) {

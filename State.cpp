@@ -6,9 +6,9 @@ State::State(int id) {
     setId(id);
 }
 
-State::State(int id, State::Connections &connections) : State(id, connections, 0) {}
+State::State(int id, const State::Connections &connections) : State(id, connections, 0) {}
 
-State::State(int id, State::Connections &connections, char status) : connections(connections) {
+State::State(int id, const State::Connections &connections, char status) : connections(connections) {
     setId(id);
     this->status = status;
 }
@@ -32,7 +32,7 @@ bool State::contains(std::string input) const {
             Steps nextSteps = connections[i].getValue();
 
             for (int j = 0; j < nextSteps.size(); ++j) {
-                bool isAccepted = nextSteps[i]->contains(nextInput);
+                bool isAccepted = nextSteps[j]->contains(nextInput);
 
                 if (isAccepted) {
                     return true;
@@ -88,7 +88,7 @@ bool State::isFinal() const {
     return isStatus(final);
 }
 
-void State::addConnection(State::Connection& connection) {
+void State::addConnection(const State::Connection& connection) {
     for (int i = 0; i < connections.size(); ++i) {
         if(connections[i].isThisKey(connection.getKey())){
             //TODO: implement concat
@@ -96,9 +96,15 @@ void State::addConnection(State::Connection& connection) {
             for (int j = 0; j < newSteps.size(); ++j) {
                 connections[i].getValue().push(newSteps[i]);
             }
+
+            return;
         }
     }
 
     connections.push(connection);
+}
+
+ State::StatePtr State::getPtr() const{
+    return  StatePtr(id.getValue());
 }
 

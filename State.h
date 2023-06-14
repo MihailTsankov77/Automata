@@ -12,31 +12,32 @@ enum StateStatus {
 };
 
 class State {
-private:
+public:
     typedef MySharedPointer<State> StatePtr;
     typedef MyPair<int, StatePtr> Id;
     typedef MyVector<StatePtr> Steps;
     typedef MyPair<char, Steps> Connection;
     typedef MyVector<Connection> Connections;
-
-    Id id;
+private:
     Connections connections;
-
+    Id id;
 public:
     //TODO: move??
 
     explicit State(int);
 
-    State(int, Connections &);
+    State(int, const Connections &);
 
-    State(int, Connections &, char);
+    State(int, const Connections &, char);
 
 private:
     void setId(int);
 
 public:
 
-    bool contains(std::string) const;
+    bool contains(const std::string) const;
+
+    StatePtr getPtr() const;
 
     ~State();
 
@@ -62,6 +63,7 @@ public:
 
     bool isFinal() const;
 
-    void addConnection(Connection&);
+    //TODO: add &
+    void addConnection(const Connection&);
 };
 
