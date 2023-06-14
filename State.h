@@ -14,24 +14,25 @@ enum StateStatus {
 
 class State {
 public:
-    typedef State* StatePtr;
-    typedef MyVector<StatePtr> Steps;
+    typedef int Id;
+
+    typedef std::weak_ptr<State> Step;
+    typedef MyVector<Step> Steps;
     typedef MyPair<char, Steps> Connection;
     typedef MyVector<Connection> Connections;
 private:
+    Id id;
     Connections connections;
 public:
     //TODO: move??
 
-    explicit State();
-
-    State( const Connections &);
-
-    State( const Connections &, char);
+    explicit State(Id);
+    explicit State(Id, char);
 
 public:
+    bool accepts(std::string) const;
 
-    bool contains(const std::string) const;
+    bool isSameId(Id) const;
 private:
     char status = 0;
 
@@ -54,7 +55,11 @@ public:
 
     bool isFinal() const;
 
-    //TODO: add &
-    void addConnection(const Connection&);
+    void addConnection(char, const Step&);
+
+    void removeConnection(char, size_t);
+
+    void cleanConnections();
+
 };
 

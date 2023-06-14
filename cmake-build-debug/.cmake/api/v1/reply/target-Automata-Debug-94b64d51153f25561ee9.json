@@ -68,7 +68,8 @@
 			[
 				1,
 				6,
-				7
+				7,
+				10
 			]
 		}
 	],
@@ -116,7 +117,8 @@
 			[
 				1,
 				6,
-				7
+				7,
+				10
 			]
 		}
 	],
@@ -150,13 +152,13 @@
 		},
 		{
 			"backtrace" : 1,
-			"path" : "State.h",
+			"path" : "BaseComponents/trash/State.h",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "State.cpp",
+			"path" : "BaseComponents/trash/State.cpp",
 			"sourceGroupIndex" : 1
 		},
 		{
@@ -174,6 +176,12 @@
 			"backtrace" : 1,
 			"path" : "BaseComponents/SharePtr.hpp",
 			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Automata.cpp",
+			"sourceGroupIndex" : 1
 		}
 	],
 	"type" : "EXECUTABLE"
