@@ -81,7 +81,8 @@ MySharedPointer<Type>::MySharedPointer(Type *value) {
 
 template<class Type>
 void MySharedPointer<Type>::reset() {
-    *this = MySharedPointer();
+    ptr = nullptr;
+//    *this = MySharedPointer();
 }
 
 template<class Type>

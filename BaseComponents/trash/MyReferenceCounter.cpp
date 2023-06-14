@@ -49,7 +49,8 @@ void MyReferenceCounter::decrement() const {
     --(*count);
 }
 
-
+#include <iostream>
 bool MyReferenceCounter::shouldDelete() const {
-    return (*count) == 0;
+   std::cout<<*count<<std::endl;
+    return (*count) <= 0;
 }

@@ -46,12 +46,12 @@ cmake_ninja_workdir = /Users/mihail.tsankov/Projects/chess/Automata/cmake-build-
 
 build cmake_object_order_depends_target_Automata: phony || CMakeFiles/Automata.dir
 
-build CMakeFiles/Automata.dir/BaseComponents/MyReferenceCounter.cpp.o: CXX_COMPILER__Automata_Debug /Users/mihail.tsankov/Projects/chess/Automata/BaseComponents/MyReferenceCounter.cpp || cmake_object_order_depends_target_Automata
-  DEP_FILE = CMakeFiles/Automata.dir/BaseComponents/MyReferenceCounter.cpp.o.d
+build CMakeFiles/Automata.dir/BaseComponents/trash/MyReferenceCounter.cpp.o: CXX_COMPILER__Automata_Debug /Users/mihail.tsankov/Projects/chess/Automata/BaseComponents/trash/MyReferenceCounter.cpp || cmake_object_order_depends_target_Automata
+  DEP_FILE = CMakeFiles/Automata.dir/BaseComponents/trash/MyReferenceCounter.cpp.o.d
   FLAGS = -g -arch arm64 -isysroot /Applications/Xcode-14.2.0.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics -std=gnu++14
   INCLUDES = -I/Users/mihail.tsankov/Projects/chess/Automata/.
   OBJECT_DIR = CMakeFiles/Automata.dir
-  OBJECT_FILE_DIR = CMakeFiles/Automata.dir/BaseComponents
+  OBJECT_FILE_DIR = CMakeFiles/Automata.dir/BaseComponents/trash
 
 build CMakeFiles/Automata.dir/State.cpp.o: CXX_COMPILER__Automata_Debug /Users/mihail.tsankov/Projects/chess/Automata/State.cpp || cmake_object_order_depends_target_Automata
   DEP_FILE = CMakeFiles/Automata.dir/State.cpp.o.d
@@ -75,7 +75,7 @@ build CMakeFiles/Automata.dir/main.cpp.o: CXX_COMPILER__Automata_Debug /Users/mi
 #############################################
 # Link the executable Automata
 
-build Automata: CXX_EXECUTABLE_LINKER__Automata_Debug CMakeFiles/Automata.dir/BaseComponents/MyReferenceCounter.cpp.o CMakeFiles/Automata.dir/State.cpp.o CMakeFiles/Automata.dir/main.cpp.o
+build Automata: CXX_EXECUTABLE_LINKER__Automata_Debug CMakeFiles/Automata.dir/BaseComponents/trash/MyReferenceCounter.cpp.o CMakeFiles/Automata.dir/State.cpp.o CMakeFiles/Automata.dir/main.cpp.o
   FLAGS = -g -arch arm64 -isysroot /Applications/Xcode-14.2.0.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk
   OBJECT_DIR = CMakeFiles/Automata.dir
   POST_BUILD = :

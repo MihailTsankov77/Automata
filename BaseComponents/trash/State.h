@@ -2,9 +2,10 @@
 
 #include "BaseComponents/MyVector.hpp"
 #include "BaseComponents/MyPair.hpp"
-#include "BaseComponents/MySharedPointer.hpp"
+#include "BaseComponents/SharePtr.hpp"
 //TODO: switch
 #include <string>
+#include <vector>
 
 enum StateStatus {
     final = 1,
@@ -13,34 +14,24 @@ enum StateStatus {
 
 class State {
 public:
-    typedef MySharedPointer<State> StatePtr;
-    typedef MyPair<int, StatePtr> Id;
+    typedef State* StatePtr;
     typedef MyVector<StatePtr> Steps;
     typedef MyPair<char, Steps> Connection;
     typedef MyVector<Connection> Connections;
 private:
     Connections connections;
-    Id id;
 public:
     //TODO: move??
 
-    explicit State(int);
+    explicit State();
 
-    State(int, const Connections &);
+    State( const Connections &);
 
-    State(int, const Connections &, char);
-
-private:
-    void setId(int);
+    State( const Connections &, char);
 
 public:
 
     bool contains(const std::string) const;
-
-    StatePtr getPtr() const;
-
-    ~State();
-
 private:
     char status = 0;
 

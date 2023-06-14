@@ -174,7 +174,8 @@ void MyVector<Type>::pop() {
 
 template<class Type>
 void MyVector<Type>::resize(size_t newCapacity) noexcept {
-    Type *newArr = new Type[5];
+    capacity = newCapacity==0? defaultCapacity : newCapacity;
+    Type *newArr = new Type[capacity];
 
     for (int i = 0; i < size(); ++i) {
         newArr[i] = arr[i];
@@ -183,7 +184,7 @@ void MyVector<Type>::resize(size_t newCapacity) noexcept {
     delete[] arr;
     arr = newArr;
 
-    capacity = newCapacity;
+
 }
 
 template<class Type>

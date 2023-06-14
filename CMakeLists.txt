@@ -7,7 +7,7 @@ include_directories(.)
 
 add_executable(Automata
         BaseComponents/MyPair.hpp
-        BaseComponents/MyReferenceCounter.cpp
-        BaseComponents/MyReferenceCounter.h
-        BaseComponents/MySharedPointer.hpp
-        BaseComponents/MyVector.hpp State.h State.cpp main.cpp)
+        BaseComponents/trash/MyReferenceCounter.cpp
+        BaseComponents/trash/MyReferenceCounter.h
+        BaseComponents/trash/MySharedPointer.hpp
+        BaseComponents/MyVector.hpp BaseComponents/trash/State.h BaseComponents/trash/State.cpp main.cpp Automata.h BaseComponents/SharePtr.hpp)

@@ -2,22 +2,14 @@
 
 #include <utility>
 
-State::State(int id) {
-    setId(id);
-}
+State::State() {}
 
-State::State(int id, const State::Connections &connections) : State(id, connections, 0) {}
+State::State( const State::Connections &connections) : State(connections, 0) {}
 
-State::State(int id, const State::Connections &connections, char status) : connections(connections) {
-    setId(id);
+State::State(const State::Connections &connections, char status) : connections(connections) {
     this->status = status;
 }
 
-
-void State::setId(int _id) {
-    id.setKey(_id);
-    id.setValue(MySharedPointer<State>(this));
-}
 
 bool State::contains(std::string input) const {
     if (input.length() == 0) {
@@ -46,9 +38,6 @@ bool State::contains(std::string input) const {
     return false;
 }
 
-State::~State() {
-    id.getValue().reset();
-}
 
 void State::makeStatus(StateStatus stat) {
     status = status | stat;
@@ -104,7 +93,4 @@ void State::addConnection(const State::Connection& connection) {
     connections.push(connection);
 }
 
- State::StatePtr State::getPtr() const{
-    return  StatePtr(id.getValue());
-}
 
