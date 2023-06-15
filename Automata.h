@@ -4,6 +4,7 @@
 
 //TODO: remove
 #include <string>
+#include <set>
 
 class Automata {
 private:
@@ -59,7 +60,18 @@ public:
 
     void concat(const Automata &);
 
+    void determinization();
+
+    void print()const;
 private:
+    typedef std::set<State::Id> OldIds;
+    typedef MyPair<OldIds, StatePtr> IdStateMap;
+
+
+
+    static StatePtr createDeterminizationState( MyVector<IdStateMap>&, State::Id&, const State::Steps&);
+
+
 //    void cleanAutomata();
 };
 

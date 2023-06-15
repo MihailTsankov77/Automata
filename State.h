@@ -35,6 +35,8 @@ public:
 
     bool isSameId(Id) const;
 
+    State::Id getId() const;
+
 private:
     char status = 0;
 
@@ -67,7 +69,9 @@ public:
 
     const Connections &getConnections() const;
 
+    void printConnections() const;
 
+    static Connections optimizeConnections(const Connections&);
 
 };
 

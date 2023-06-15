@@ -108,8 +108,30 @@ void theDeathTest(void(*fun)()){
 
 int main() {
 
-    concatTest();
+    Automata dfa;
 
+    dfa.addState(1, begging);
+    dfa.addState(2);
+    dfa.addState(3, final);
+
+    dfa.addConnection(1, 'a', 3);
+    dfa.addConnection(1, 'a', 2);
+    dfa.addConnection(1, 'b', 2);
+
+    dfa.addConnection(2, 'a', 3);
+
+    dfa.addConnection(3, 'b', 2);
+    dfa.addConnection(3, 'b', 1);
+
+
+
+    dfa.determinization();
+
+    dfa.print();
+
+    if(dfa.accepts("a")){
+        std::cout<<"Yeah";
+    }
 
     return 0;
 }

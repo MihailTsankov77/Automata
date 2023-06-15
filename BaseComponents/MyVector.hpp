@@ -44,6 +44,8 @@ public:
 
     void pop();
 
+    int count(const Type&, bool (*)(const Type&, const Type&)) const;
+
 private:
     static const size_t resizeValue = 2;
     static const size_t maxResizeThreshold = 4;
@@ -62,6 +64,18 @@ public:
 private:
     void assertInBounds(size_t) const;
 };
+
+template<class Type>
+int MyVector<Type>::count(const Type & a, bool (*compare)(const Type &, const Type &)) const {
+    int i = 0;
+    for (int j = 0; j < size(); ++j) {
+        if(compare(a, arr[i])){
+            ++i;
+        }
+    }
+
+    return i;
+}
 
 template<class Type>
 MyVector<Type>::MyVector() noexcept:MyVector(defaultCapacity) {}

@@ -182,7 +182,202 @@ void Automata::concat(const Automata &other) {
     // TODO
 //    cleanAutomata();
 }
+//TODO make [] = to resize
 
+void Automata::determinization() {
+
+    State::Connections beginningStatesConnections;
+
+    char begStatus = begging;
+
+    OldIds oldIds;
+    for (int i = 0; i < states.size(); ++i) {
+        if (states[i]->isBegging()) {
+            //TODO: implement concat
+            State::Connections stateConnections = states[i]->getConnections();
+            for (int j = 0; j < stateConnections.size(); ++j) {
+                beginningStatesConnections.push(stateConnections[j]);
+            }
+
+            if (states[i]->isFinal()) {
+                begStatus = begStatus | final;
+            }
+
+            oldIds.insert(states[i]->getId());
+        }
+    }
+
+    MyVector<IdStateMap> newStatesIds;
+
+    newStatesIds.push(IdStateMap(oldIds, StatePtr(new State(0, begStatus))));
+
+    State::Connections optimizedConnections = State::optimizeConnections(beginningStatesConnections);
+    State::Id currentId = 1;
+
+    for (int i = 0; i < optimizedConnections.size(); ++i) {
+        newStatesIds[0].getValue()->addConnection(optimizedConnections[i].getKey(),
+                                                  createDeterminizationState(newStatesIds, currentId,
+                                                                             optimizedConnections[i].getValue()));
+    }
+
+
+    States newStates(newStatesIds.size());
+    for (int i = 0; i < newStatesIds.size(); ++i) {
+        newStates.push(newStatesIds[i].getValue());
+    }
+
+    states = newStates;
+}
+
+
+Automata::StatePtr Automata::createDeterminizationState(MyVector<IdStateMap> &newStatesIds, State::Id &currentId,
+                                                        const State::Steps &steps) {
+    State::Id _ID = currentId;
+
+
+
+    //check if already exist this state
+    int existAlreadyId = -1;
+    for (int i = 0; i < newStatesIds.size(); ++i) {
+        OldIds existingStateIds = newStatesIds[i].getKey();
+
+
+        for (int k = 0; k < steps.size() && existingStateIds.size() == steps.size(); ++k) {
+            if (std::shared_ptr<State> thisStep = steps[k].lock()) {
+
+                if (!existingStateIds.count(thisStep->getId())) {
+                    existAlreadyId = -1;
+                    break;
+                } else {
+                    existAlreadyId = i;
+                }
+            }
+
+        }
+
+        if (existAlreadyId >= 0) {
+            break;
+        }
+
+    }
+
+    if (existAlreadyId >= 0) {
+        return newStatesIds[existAlreadyId].getValue();
+    }
+
+    char status = 0;
+    State::Connections statesConnections;
+
+    OldIds oldIds;
+    for (int i = 0; i < steps.size(); ++i) {
+
+        if (std::shared_ptr<State> thisStep = steps[i].lock()) {
+
+            //TODO: implement concat
+            State::Connections stateConnections = thisStep->getConnections();
+            for (int j = 0; j < stateConnections.size(); ++j) {
+                statesConnections.push(stateConnections[j]);
+            }
+
+            if (thisStep->isFinal()) {
+                status = final;
+            }
+
+            oldIds.insert(thisStep->getId());
+        }
+    }
+
+
+    newStatesIds.push(IdStateMap(oldIds, StatePtr(new State(_ID, status))));
+
+    State::Connections optimizedConnections = State::optimizeConnections(statesConnections);
+    ++currentId;
+    for (int i = 0; i < optimizedConnections.size(); ++i) {
+        newStatesIds[_ID].getValue()->addConnection(optimizedConnections[i].getKey(),
+                                                    createDeterminizationState(newStatesIds, currentId,
+                                                                               optimizedConnections[i].getValue()));
+    }
+
+
+    return newStatesIds[_ID].getValue();
+}
+
+void Automata::print() const {
+    for (int i = 0; i < states.size(); ++i) {
+        states[i]->printConnections();
+    }
+}
+
+/*
+
+void Automata::createDeterminizationState(MyVector<IdStateMap> &, State::Id &, Automata &) {
+
+}
+
+void Automata::stateDeterminization(MyVector<IdStateMap> &newStatesIds, State::Id &currentId, Automata &automata) {
+    State::Connections currentConnections = automata.states[currentId]->getConnections();
+
+
+
+    for (int i = 0; i < currentConnections.size(); ++i) {
+        State::Steps letterSteps = currentConnections[i].getValue();
+        States thisStates;
+        OldIds oldIds;
+        for (int j = 0; j < letterSteps.size(); ++j) {
+            if (std::shared_ptr<State> thisStep = letterSteps[j].lock()) {
+                thisStates.push(thisStep);
+                oldIds.push(thisStep->getId());
+            }
+        }
+
+        bool found = true;
+        for (int j = 0; j < newStatesIds.size(); ++j) {
+
+            found = false;
+
+            for (int k = 0; k < oldIds.size() && oldIds.size() == newStatesIds[j].getKey().getValue().size(); ++k) {
+                found = true;
+
+                //TODO: think if they are always he same order
+                if (newStatesIds[j].getKey().getValue()[k] != oldIds[k]) {
+                    found = false;
+                    break;
+                }
+            }
+            if (found) {
+                automata.states[currentId]->addConnection(currentConnections[i].getKey(),
+                                                          newStatesIds[j].getValue());
+                break;
+            }
+        }
+
+        if (!found) {
+            newStatesIds.push(IdStateMap(IdMap(currentId, oldIds),
+                                         Automata::concatStates(thisStates, currentId)));
+            automata.states.push(newStatesIds[currentId + 1].getValue());
+            ++currentId;
+
+            stateDeterminization(newStatesIds, currentId, automata);
+        }
+    }
+}
+
+Automata::StatePtr Automata::concatStates(const Automata::States &_states, State::Id id) {
+    Automata::StatePtr toReturn(new State(id));
+
+    for (int i = 0; i < _states.size(); ++i) {
+        StatePtr currentState = _states[i];
+
+        if (currentState->isFinal()) {
+            toReturn->makeFinal();
+        }
+
+        toReturn->addConnections(currentState->getConnections());
+    }
+
+    return toReturn;
+}
+*/
 
 // TODO: Questionable
 //void Automata::cleanAutomata() {

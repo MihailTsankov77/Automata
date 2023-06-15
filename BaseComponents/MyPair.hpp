@@ -36,8 +36,8 @@ const Key &MyPair<Key, Value>::getKey() const noexcept{
 }
 
 template<class Key, class Value>
-bool MyPair<Key, Value>::isThisKey(const Key& key) const noexcept {
-    return this->key==key;
+bool MyPair<Key, Value>::isThisKey(const Key &_key) const noexcept {
+    return this->key==_key;
 }
 
 template<class Key, class Value>
