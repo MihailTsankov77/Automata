@@ -46,6 +46,8 @@ public:
 
     int count(const Type&, bool (*)(const Type&, const Type&)) const;
 
+    MyVector& filter(bool (*)(const Type&));
+
 private:
     static const size_t resizeValue = 2;
     static const size_t maxResizeThreshold = 4;
@@ -64,6 +66,25 @@ public:
 private:
     void assertInBounds(size_t) const;
 };
+
+template<class Type>
+MyVector<Type> &MyVector<Type>::filter(bool (* compare)(const Type &)) {
+
+    Type* newArr = new Type[capacity];
+    size_t newLength = 0;
+
+    for (int i = 0; i < size(); ++i) {
+        if(compare(arr[i])){
+            newArr[newLength++] = arr[i];
+        }
+    }
+    length = newLength;
+
+    delete arr;
+    arr = newArr;
+
+    return *this;
+}
 
 template<class Type>
 int MyVector<Type>::count(const Type & a, bool (*compare)(const Type &, const Type &)) const {

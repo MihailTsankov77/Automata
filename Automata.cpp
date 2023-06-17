@@ -1,4 +1,17 @@
 #include "Automata.h"
+//TODO: remove
+template <typename T>
+T get_nth_element(std::set<T>& set_name, int index)
+{
+
+    T toReturn;
+    if (set_name.size() > index) {
+        auto it = next(set_name.begin(), index);
+        toReturn = *it;
+    }
+
+    return toReturn;
+}
 
 Automata::Automata(size_t num) : states(num) {}
 
@@ -241,18 +254,24 @@ Automata::StatePtr Automata::createDeterminizationState(MyVector<IdStateMap> &ne
     for (int i = 0; i < newStatesIds.size(); ++i) {
         OldIds existingStateIds = newStatesIds[i].getKey();
 
+        std::set<int> currentStepIds;
+        for (int j = 0; j < steps.size(); ++j) {
+            if (std::shared_ptr<State> thisStep = steps[j].lock()) {
 
-        for (int k = 0; k < steps.size() && existingStateIds.size() == steps.size(); ++k) {
-            if (std::shared_ptr<State> thisStep = steps[k].lock()) {
-
-                if (!existingStateIds.count(thisStep->getId())) {
-                    existAlreadyId = -1;
-                    break;
-                } else {
-                    existAlreadyId = i;
-                }
+                currentStepIds.insert(thisStep->getId());
             }
 
+        }
+
+        for (int k = 0; k < currentStepIds.size() && existingStateIds.size() == currentStepIds.size(); ++k) {
+
+            //TODO: create [] on your set
+            if (!existingStateIds.count(get_nth_element(currentStepIds, k))) {
+                existAlreadyId = -1;
+                break;
+            } else {
+                existAlreadyId = i;
+            }
         }
 
         if (existAlreadyId >= 0) {

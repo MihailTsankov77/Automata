@@ -136,12 +136,32 @@ State::Id State::getId() const {
 }
 
 void State::printConnections() const {
-    std::cout << id << " [" << status << "] " << ": ";
+    std::cout << id << " [";
+
+    if (isBegging()) {
+        std::cout << "beginning";
+    }
+
+    if (isFinal()) {
+        if (isBegging()) {
+            std::cout << "/";
+        }
+        std::cout << "final";
+    } else if (!isBegging()) {
+        std::cout << "-";
+    }
+
+    std::cout << "] " << ": ";
+
+
     for (int i = 0; i < connections.size(); ++i) {
         std::cout << connections[i].getKey() << " -> ";
         for (int j = 0; j < connections[i].getValue().size(); ++j) {
             if (std::shared_ptr<State> thisStep = connections[i].getValue()[j].lock()) {
-                std::cout << thisStep->id << ", ";
+                std::cout << thisStep->id;
+                if (j < connections[i].getValue().size() - 1) {
+                    std::cout << ", ";
+                }
             }
         }
         std::cout << "; ";
@@ -151,14 +171,15 @@ void State::printConnections() const {
 
 State::Connections State::optimizeConnections(const State::Connections &connections) {
 
-    auto compare = [](const Step & a, const Step& b){
+    auto compare = [](const Step &a, const Step &b) {
         if (std::shared_ptr<State> stepA = a.lock()) {
-            if( std::shared_ptr<State> stepB = b.lock()){
-                return stepA->id ==stepB->id;
+            if (std::shared_ptr<State> stepB = b.lock()) {
+                return stepA->id == stepB->id;
             }
         }
 
         return false;
+
     };
 
 
@@ -168,12 +189,12 @@ State::Connections State::optimizeConnections(const State::Connections &connecti
 
         for (int j = 0; j < optimizedConnections.size(); ++j) {
             if (connections[i].isThisKey(optimizedConnections[j].getKey())) {
-                //TODO: implement concat
+                //TODO: implement concatUnique
                 Steps currSteps = connections[i].getValue();
                 for (int k = 0; k < currSteps.size(); ++k) {
-                    if (optimizedConnections[j].getValue().count(currSteps[k], compare)==0){
+                    if (optimizedConnections[j].getValue().count(currSteps[k], compare) == 0) {
                         optimizedConnections[j].getValue().push(currSteps[k]);
-                }
+                    }
                 }
 
                 letterExistAlready = true;
@@ -190,3 +211,5 @@ State::Connections State::optimizeConnections(const State::Connections &connecti
     return optimizedConnections;
 }
 
+//add erase weakPtr that don't have value and call this method on remove state
+// use filter
