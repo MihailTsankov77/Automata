@@ -189,7 +189,7 @@ State::Connections State::optimizeConnections(const State::Connections &connecti
 
         for (int j = 0; j < optimizedConnections.size(); ++j) {
             if (connections[i].isThisKey(optimizedConnections[j].getKey())) {
-                //TODO: implement concat
+                //TODO: implement concatUnique
                 Steps currSteps = connections[i].getValue();
                 for (int k = 0; k < currSteps.size(); ++k) {
                     if (optimizedConnections[j].getValue().count(currSteps[k], compare) == 0) {
@@ -211,3 +211,5 @@ State::Connections State::optimizeConnections(const State::Connections &connecti
     return optimizedConnections;
 }
 
+//add erase weakPtr that don't have value and call this method on remove state
+// use filter
