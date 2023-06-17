@@ -139,7 +139,10 @@ void State::printConnections() const {
     for (int i = 0; i < connections.size(); ++i) {
         std::cout << connections[i].getKey() << " -> ";
         for (int j = 0; j < connections[i].getValue().size(); ++j) {
-            std::cout << connections[i].getValue()[j]->id << ", ";
+            std::cout << connections[i].getValue()[j]->id ;
+            if(j<connections[i].getValue().size()-1){
+                std::cout<< ", ";
+            }
         }
         std::cout << "; ";
     }
