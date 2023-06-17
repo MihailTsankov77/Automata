@@ -189,7 +189,7 @@ void allTests(){
 
 int main() {
 
-    allTests();
+    detTest();
 
 
     return 0;
