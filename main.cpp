@@ -100,6 +100,32 @@ void concatTest(){
     }
 }
 
+void detTest(){
+    Automata n;
+
+    n.addState(0, begging);
+    n.addState(1);
+    n.addState(2);
+    n.addState(3, final);
+
+    n.addConnection(0,'a',0);
+    n.addConnection(0,'b',0);
+    n.addConnection(0,'c',0);
+
+    n.addConnection(0,'c',1);
+    n.addConnection(1,'a',2);
+    n.addConnection(2,'b',3);
+
+    n.addConnection(3,'a',3);
+    n.addConnection(3,'b',3);
+    n.addConnection(3,'c',3);
+
+
+    n.determinization();
+
+    n.print();
+}
+
 void theDeathTest(void(*fun)()){
     while (true){
         fun();
@@ -108,30 +134,9 @@ void theDeathTest(void(*fun)()){
 
 int main() {
 
-    Automata dfa;
 
-    dfa.addState(1, begging);
-    dfa.addState(2);
-    dfa.addState(3, final);
+ detTest();
 
-    dfa.addConnection(1, 'a', 3);
-    dfa.addConnection(1, 'a', 2);
-    dfa.addConnection(1, 'b', 2);
-
-    dfa.addConnection(2, 'a', 3);
-
-    dfa.addConnection(3, 'b', 2);
-    dfa.addConnection(3, 'b', 1);
-
-
-
-    dfa.determinization();
-
-    dfa.print();
-
-    if(dfa.accepts("a")){
-        std::cout<<"Yeah";
-    }
 
     return 0;
 }

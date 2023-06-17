@@ -16,7 +16,7 @@ class State {
 public:
     typedef int Id;
 
-    typedef std::weak_ptr<State> Step;
+    typedef std::shared_ptr<State> Step;
     typedef MyVector<Step> Steps;
     typedef MyPair<char, Steps> Connection;
     typedef MyVector<Connection> Connections;

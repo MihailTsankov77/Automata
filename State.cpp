@@ -75,14 +75,13 @@ bool State::accepts(std::string input) const {
             Steps nextSteps = connections[i].getValue();
 
             for (int j = 0; j < nextSteps.size(); ++j) {
-                if (std::shared_ptr<State> thisStep = nextSteps[j].lock()) {
 
-                    bool isAccepted = thisStep->accepts(nextInput);
+                bool isAccepted = nextSteps[j]->accepts(nextInput);
 
-                    if (isAccepted) {
-                        return true;
-                    }
+                if (isAccepted) {
+                    return true;
                 }
+
             }
 
             return false;
@@ -140,9 +139,7 @@ void State::printConnections() const {
     for (int i = 0; i < connections.size(); ++i) {
         std::cout << connections[i].getKey() << " -> ";
         for (int j = 0; j < connections[i].getValue().size(); ++j) {
-            if (std::shared_ptr<State> thisStep = connections[i].getValue()[j].lock()) {
-                std::cout << thisStep->id << ", ";
-            }
+            std::cout << connections[i].getValue()[j]->id << ", ";
         }
         std::cout << "; ";
     }
@@ -151,14 +148,9 @@ void State::printConnections() const {
 
 State::Connections State::optimizeConnections(const State::Connections &connections) {
 
-    auto compare = [](const Step & a, const Step& b){
-        if (std::shared_ptr<State> stepA = a.lock()) {
-            if( std::shared_ptr<State> stepB = b.lock()){
-                return stepA->id ==stepB->id;
-            }
-        }
+    auto compare = [](const Step &a, const Step &b) {
+        return a->id == b->id;
 
-        return false;
     };
 
 
@@ -171,9 +163,9 @@ State::Connections State::optimizeConnections(const State::Connections &connecti
                 //TODO: implement concat
                 Steps currSteps = connections[i].getValue();
                 for (int k = 0; k < currSteps.size(); ++k) {
-                    if (optimizedConnections[j].getValue().count(currSteps[k], compare)==0){
+                    if (optimizedConnections[j].getValue().count(currSteps[k], compare) == 0) {
                         optimizedConnections[j].getValue().push(currSteps[k]);
-                }
+                    }
                 }
 
                 letterExistAlready = true;

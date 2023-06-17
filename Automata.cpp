@@ -243,14 +243,12 @@ Automata::StatePtr Automata::createDeterminizationState(MyVector<IdStateMap> &ne
 
 
         for (int k = 0; k < steps.size() && existingStateIds.size() == steps.size(); ++k) {
-            if (std::shared_ptr<State> thisStep = steps[k].lock()) {
 
-                if (!existingStateIds.count(thisStep->getId())) {
-                    existAlreadyId = -1;
-                    break;
-                } else {
-                    existAlreadyId = i;
-                }
+            if (!existingStateIds.count(steps[k]->getId())) {
+                existAlreadyId = -1;
+                break;
+            } else {
+                existAlreadyId = i;
             }
 
         }
@@ -271,20 +269,19 @@ Automata::StatePtr Automata::createDeterminizationState(MyVector<IdStateMap> &ne
     OldIds oldIds;
     for (int i = 0; i < steps.size(); ++i) {
 
-        if (std::shared_ptr<State> thisStep = steps[i].lock()) {
 
-            //TODO: implement concat
-            State::Connections stateConnections = thisStep->getConnections();
-            for (int j = 0; j < stateConnections.size(); ++j) {
-                statesConnections.push(stateConnections[j]);
-            }
-
-            if (thisStep->isFinal()) {
-                status = final;
-            }
-
-            oldIds.insert(thisStep->getId());
+        //TODO: implement concat
+        State::Connections stateConnections = steps[i]->getConnections();
+        for (int j = 0; j < stateConnections.size(); ++j) {
+            statesConnections.push(stateConnections[j]);
         }
+
+        if (steps[i]->isFinal()) {
+            status = final;
+        }
+
+        oldIds.insert(steps[i]->getId());
+
     }
 
 
