@@ -1,8 +1,8 @@
 #include "Automata.h"
+
 //TODO: remove
-template <typename T>
-T get_nth_element(std::set<T>& set_name, int index)
-{
+template<typename T>
+T get_nth_element(std::set<T> &set_name, int index) {
 
     T toReturn;
     if (set_name.size() > index) {
@@ -103,6 +103,7 @@ Automata Automata::onion(const Automata &left, const Automata &right) {
 
 void Automata::onion(const Automata &other) {
     for (int i = 0; i < other.states.size(); ++i) {
+        // TODO: implement clone on sharePtr and use it
         states.push(other.states[i]);
     }
 }
@@ -160,13 +161,18 @@ Automata Automata::concat(const Automata &left, const Automata &right) {
     return toReturn;
 }
 
-void Automata::concat(const Automata &other) {
-
+void Automata::concat(const Automata & other) {
     State::Connections allBeggingConnections;
     bool hasFinalBegging = false;
-    for (int i = 0; i < other.states.size(); ++i) {
-        if (other.states[i]->isBegging()) {
-            StatePtr begging = other.states[i];
+
+    //TODO use clone of state sharePtr clone and defined copy constructor to ...
+    //TODO use clone of state sharePtr clone
+    Automata toConcat = other;
+
+    for (int i = 0; i < toConcat.states.size(); ++i) {
+
+        if (toConcat.states[i]->isBegging()) {
+            StatePtr begging = toConcat.states[i];
             begging->makeNotBegging();
 
             if (!hasFinalBegging && begging->isFinal()) {
@@ -177,7 +183,7 @@ void Automata::concat(const Automata &other) {
 
             //TODO: implement concat
             for (int j = 0; j < beggingConnections.size(); ++j) {
-                allBeggingConnections.push(beggingConnections[i]);
+                allBeggingConnections.push(beggingConnections[j]);
             }
         }
     }
@@ -190,6 +196,13 @@ void Automata::concat(const Automata &other) {
 
             states[i]->addConnections(allBeggingConnections);
         }
+    }
+
+    //TODO: concat
+
+    for (int i = 0; i < toConcat.states.size(); ++i) {
+        toConcat.states[i]->changeId(findSpareId());
+        states.push(toConcat.states[i]);
     }
 
     // TODO
@@ -331,7 +344,7 @@ Automata Automata::reverse(const Automata &other) {
     Automata reverseAutomata(other.states.size());
 
     for (int i = 0; i < other.states.size(); ++i) {
-        reverseAutomata.addState(i);
+        reverseAutomata.addState(other.states[i]->getId());
         if (other.states[i]->isBegging()) {
             reverseAutomata.states[i]->makeFinal();
         }
@@ -344,7 +357,7 @@ Automata Automata::reverse(const Automata &other) {
         State::Id id = other.states[i]->getId();
         State::Connections connections = other.states[i]->getConnections();
         for (int j = 0; j < connections.size(); ++j) {
-            for (int k = 0; k <connections[j].getValue().size(); ++k) {
+            for (int k = 0; k < connections[j].getValue().size(); ++k) {
                 if (std::shared_ptr<State> thisStep = connections[j].getValue()[k].lock()) {
                     reverseAutomata.addConnection(thisStep->getId(), connections[j].getKey(), id);
                 }
@@ -361,6 +374,26 @@ void Automata::reverse() {
     *this = reverse;
 }
 
+Automata Automata::minimize(const Automata &other) {
+    Automata mini = other;
+    return mini.minimize();
+}
+
+Automata &Automata::minimize() {
+    for (int i = 0; i < 2; ++i) {
+        reverse();
+        determinization();
+    }
+
+    return *this;
+}
+
+void Automata::changeStatusToState(State::Id id, char status) {
+    size_t index = findState(id);
+
+    states[index]->changeStatus(status);
+}
+
 // TODO: Questionable
 //void Automata::cleanAutomata() {
 //    for (int i = 0; i < states.size(); ++i) {
@@ -371,3 +404,4 @@ void Automata::reverse() {
 //}
 
 
+//TODO: redefine copy const with share ptr clone

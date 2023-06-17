@@ -37,6 +37,10 @@ public:
 
     State::Id getId() const;
 
+    void changeStatus(char);
+
+    void changeId(State::Id);
+
 private:
     char status = 0;
 

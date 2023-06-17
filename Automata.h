@@ -65,7 +65,12 @@ public:
     static Automata reverse(const Automata &);
     void reverse();
 
+    static Automata minimize(const Automata&);
+    Automata& minimize();
+
     void print()const;
+
+    void changeStatusToState(State::Id, char);
 private:
     typedef std::set<State::Id> OldIds;
     typedef MyPair<OldIds, StatePtr> IdStateMap;

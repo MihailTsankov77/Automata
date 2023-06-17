@@ -12,7 +12,7 @@ void State::makeStatus(StateStatus stat) {
 }
 
 void State::makeNotStatus(StateStatus stat) {
-    if (isBegging()) {
+    if (isStatus(stat)) {
         status = status ^ stat;
     }
 }
@@ -209,6 +209,14 @@ State::Connections State::optimizeConnections(const State::Connections &connecti
     }
 
     return optimizedConnections;
+}
+
+void State::changeStatus(char _status) {
+    status = _status;
+}
+
+void State::changeId(State::Id _id) {
+    id = _id;
 }
 
 //add erase weakPtr that don't have value and call this method on remove state
