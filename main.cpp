@@ -183,13 +183,13 @@ void allTests(){
     unionTest();
     kleeneStarTest();
     concatTest();
-//    detTest();
+    detTest();
 }
 
 
 int main() {
 
-    theDeathTest(allTests);
+    allTests();
 
 
     return 0;

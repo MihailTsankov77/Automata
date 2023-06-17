@@ -75,13 +75,14 @@ bool State::accepts(std::string input) const {
             Steps nextSteps = connections[i].getValue();
 
             for (int j = 0; j < nextSteps.size(); ++j) {
+                if (std::shared_ptr<State> thisStep = nextSteps[j].lock()) {
 
-                bool isAccepted = nextSteps[j]->accepts(nextInput);
+                    bool isAccepted = thisStep->accepts(nextInput);
 
-                if (isAccepted) {
-                    return true;
+                    if (isAccepted) {
+                        return true;
+                    }
                 }
-
             }
 
             return false;
@@ -137,32 +138,30 @@ State::Id State::getId() const {
 void State::printConnections() const {
     std::cout << id << " [";
 
-
-    if(isBegging()){
-        std::cout<<"beginning";
+    if (isBegging()) {
+        std::cout << "beginning";
     }
 
-    if(isFinal()){
-        if (isBegging()){
-            std::cout<<"/";
+    if (isFinal()) {
+        if (isBegging()) {
+            std::cout << "/";
         }
-        std::cout<<"final";
-    }else if (!isBegging()){
-        std::cout<<"-";
+        std::cout << "final";
+    } else if (!isBegging()) {
+        std::cout << "-";
     }
 
-
-
-
-    std::cout<< "] " << ": ";
+    std::cout << "] " << ": ";
 
 
     for (int i = 0; i < connections.size(); ++i) {
         std::cout << connections[i].getKey() << " -> ";
         for (int j = 0; j < connections[i].getValue().size(); ++j) {
-            std::cout << connections[i].getValue()[j]->id ;
-            if(j<connections[i].getValue().size()-1){
-                std::cout<< ", ";
+            if (std::shared_ptr<State> thisStep = connections[i].getValue()[j].lock()) {
+                std::cout << thisStep->id;
+                if (j < connections[i].getValue().size() - 1) {
+                    std::cout << ", ";
+                }
             }
         }
         std::cout << "; ";
@@ -173,7 +172,13 @@ void State::printConnections() const {
 State::Connections State::optimizeConnections(const State::Connections &connections) {
 
     auto compare = [](const Step &a, const Step &b) {
-        return a->id == b->id;
+        if (std::shared_ptr<State> stepA = a.lock()) {
+            if (std::shared_ptr<State> stepB = b.lock()) {
+                return stepA->id == stepB->id;
+            }
+        }
+
+        return false;
 
     };
 
