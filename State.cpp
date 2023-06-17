@@ -135,7 +135,28 @@ State::Id State::getId() const {
 }
 
 void State::printConnections() const {
-    std::cout << id << " [" << status << "] " << ": ";
+    std::cout << id << " [";
+
+
+    if(isBegging()){
+        std::cout<<"beginning";
+    }
+
+    if(isFinal()){
+        if (isBegging()){
+            std::cout<<"/";
+        }
+        std::cout<<"final";
+    }else if (!isBegging()){
+        std::cout<<"-";
+    }
+
+
+
+
+    std::cout<< "] " << ": ";
+
+
     for (int i = 0; i < connections.size(); ++i) {
         std::cout << connections[i].getKey() << " -> ";
         for (int j = 0; j < connections[i].getValue().size(); ++j) {
