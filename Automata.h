@@ -62,6 +62,9 @@ public:
 
     void determinization();
 
+    static Automata reverse(const Automata &);
+    void reverse();
+
     void print()const;
 private:
     typedef std::set<State::Id> OldIds;

@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "Automata.h"
- bool _PRINT_ = true;
+bool _PRINT_ = true;
 
 void basicTest() {
     Automata dfa;
@@ -170,6 +170,42 @@ void detTest() {
     }
 }
 
+void reverseTest(){
+    Automata dfa;
+
+    dfa.addState(0, begging);
+
+    dfa.addState(1);
+    dfa.addState(2);
+    dfa.addState(3, final);
+
+    dfa.addConnection(0, 'a', 1);
+    dfa.addConnection(0, 'b', 2);
+    dfa.addConnection(1, 'c', 3);
+    dfa.addConnection(2, 'a', 3);
+
+
+    if (_PRINT_) {
+        if(dfa.accepts("ac") && dfa.accepts("ba")){
+            std::cout<<"Accept -> ";
+        }else{
+            std::cout<<"Don't accept -> ";
+        }
+    }
+
+    Automata dfaReverse = Automata::reverse(dfa);
+
+    if (_PRINT_) {
+        if(dfaReverse.accepts("ca") && dfaReverse.accepts("ab")){
+            std::cout<<" Reverse Accept"<<std::endl;
+        }else{
+            std::cout<<"Reverse Don't accept"<<std::endl;
+        }
+
+        dfaReverse.print();
+    }
+}
+
 void theDeathTest(void(*fun)()) {
     _PRINT_ = false;
     while (true) {
@@ -189,7 +225,7 @@ void allTests(){
 
 int main() {
 
-    detTest();
+    reverseTest();
 
 
     return 0;

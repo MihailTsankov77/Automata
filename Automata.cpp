@@ -327,76 +327,39 @@ void Automata::print() const {
     }
 }
 
-/*
+Automata Automata::reverse(const Automata &other) {
+    Automata reverseAutomata(other.states.size());
 
-void Automata::createDeterminizationState(MyVector<IdStateMap> &, State::Id &, Automata &) {
-
-}
-
-void Automata::stateDeterminization(MyVector<IdStateMap> &newStatesIds, State::Id &currentId, Automata &automata) {
-    State::Connections currentConnections = automata.states[currentId]->getConnections();
-
-
-
-    for (int i = 0; i < currentConnections.size(); ++i) {
-        State::Steps letterSteps = currentConnections[i].getValue();
-        States thisStates;
-        OldIds oldIds;
-        for (int j = 0; j < letterSteps.size(); ++j) {
-            if (std::shared_ptr<State> thisStep = letterSteps[j].lock()) {
-                thisStates.push(thisStep);
-                oldIds.push(thisStep->getId());
-            }
+    for (int i = 0; i < other.states.size(); ++i) {
+        reverseAutomata.addState(i);
+        if (other.states[i]->isBegging()) {
+            reverseAutomata.states[i]->makeFinal();
         }
+        if (other.states[i]->isFinal()) {
+            reverseAutomata.states[i]->makeBegging();
+        }
+    }
 
-        bool found = true;
-        for (int j = 0; j < newStatesIds.size(); ++j) {
-
-            found = false;
-
-            for (int k = 0; k < oldIds.size() && oldIds.size() == newStatesIds[j].getKey().getValue().size(); ++k) {
-                found = true;
-
-                //TODO: think if they are always he same order
-                if (newStatesIds[j].getKey().getValue()[k] != oldIds[k]) {
-                    found = false;
-                    break;
+    for (int i = 0; i < other.states.size(); ++i) {
+        State::Id id = other.states[i]->getId();
+        State::Connections connections = other.states[i]->getConnections();
+        for (int j = 0; j < connections.size(); ++j) {
+            for (int k = 0; k <connections[j].getValue().size(); ++k) {
+                if (std::shared_ptr<State> thisStep = connections[j].getValue()[k].lock()) {
+                    reverseAutomata.addConnection(thisStep->getId(), connections[j].getKey(), id);
                 }
             }
-            if (found) {
-                automata.states[currentId]->addConnection(currentConnections[i].getKey(),
-                                                          newStatesIds[j].getValue());
-                break;
-            }
-        }
-
-        if (!found) {
-            newStatesIds.push(IdStateMap(IdMap(currentId, oldIds),
-                                         Automata::concatStates(thisStates, currentId)));
-            automata.states.push(newStatesIds[currentId + 1].getValue());
-            ++currentId;
-
-            stateDeterminization(newStatesIds, currentId, automata);
         }
     }
+
+    return reverseAutomata;
 }
 
-Automata::StatePtr Automata::concatStates(const Automata::States &_states, State::Id id) {
-    Automata::StatePtr toReturn(new State(id));
+void Automata::reverse() {
+    Automata reverse = Automata::reverse(*this);
 
-    for (int i = 0; i < _states.size(); ++i) {
-        StatePtr currentState = _states[i];
-
-        if (currentState->isFinal()) {
-            toReturn->makeFinal();
-        }
-
-        toReturn->addConnections(currentState->getConnections());
-    }
-
-    return toReturn;
+    *this = reverse;
 }
-*/
 
 // TODO: Questionable
 //void Automata::cleanAutomata() {
