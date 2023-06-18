@@ -69,7 +69,8 @@
 				1,
 				6,
 				7,
-				10
+				10,
+				13
 			]
 		}
 	],
@@ -109,7 +110,8 @@
 				5,
 				8,
 				9,
-				11
+				11,
+				12
 			]
 		},
 		{
@@ -119,7 +121,8 @@
 				1,
 				6,
 				7,
-				10
+				10,
+				13
 			]
 		}
 	],
@@ -188,6 +191,17 @@
 			"backtrace" : 1,
 			"path" : "BaseComponents/MySet.hpp",
 			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "BaseComponents/MyString.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "BaseComponents/MyString.cpp",
+			"sourceGroupIndex" : 1
 		}
 	],
 	"type" : "EXECUTABLE"

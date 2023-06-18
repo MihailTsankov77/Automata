@@ -50,7 +50,7 @@ bool Automata::isEmpty() const {
     return states.isEmpty();
 }
 
-bool Automata::accepts(const std::string &input) const {
+bool Automata::accepts(const MyString &input) const {
     for (int i = 0; i < states.size(); ++i) {
         if (states[i]->isBegging()) {
             bool accept = states[i]->accepts(input);
@@ -392,7 +392,7 @@ int Automata::statesSize() const {
     return states.size();
 }
 
-std::string Automata::getRegEx() const {
+MyString Automata::getRegEx() const {
 
     RegExes regExes;
 
@@ -404,7 +404,7 @@ std::string Automata::getRegEx() const {
         }
     }
 
-    std::string regEx;
+    MyString regEx;
 
     for (int i = 0; i < regExes.size(); ++i) {
         if (i == 0) {
@@ -421,7 +421,7 @@ void Automata::createRegEx(Automata::Paths paths, const StatePtr &currentStep, A
 
     paths.push(Path(currentStep->getId(), ""));
 
-    typedef MyVector<std::string> KleeneStarParts;
+    typedef MyVector<MyString> KleeneStarParts;
     KleeneStarParts kleeneStarParts;
     State::Connections notKleeneStarConnections;
 
@@ -457,7 +457,6 @@ void Automata::createRegEx(Automata::Paths paths, const StatePtr &currentStep, A
 
 
                 checkForKleenePaths(Paths (), thisStep, currentStep->getId(), externalKleeneStars);
-//TODO: clean
                 for (int k = 0; k < externalKleeneStars.size(); ++k) {
                     kleeneStarParts.push(connection.getKey() + externalKleeneStars[k]);
                 }
@@ -467,7 +466,7 @@ void Automata::createRegEx(Automata::Paths paths, const StatePtr &currentStep, A
 
 
     //create kleene part
-    std::string kleeneStarExp;
+    MyString kleeneStarExp;
     for (int i = 0; i < kleeneStarParts.size(); ++i) {
         if (i == 0) {
             kleeneStarExp = kleeneStarParts[i];
@@ -517,7 +516,7 @@ void Automata::checkForKleenePaths(Automata::Paths paths, const Automata::StateP
 
     paths.push(Path(currentStep->getId(), ""));
 
-    typedef MyVector<std::string> KleeneStarParts;
+    typedef MyVector<MyString> KleeneStarParts;
     KleeneStarParts kleeneStarParts;
     State::Connections notKleeneStarConnections;
 
@@ -545,7 +544,7 @@ void Automata::checkForKleenePaths(Automata::Paths paths, const Automata::StateP
 
 
     //create kleene part
-    std::string kleeneStarExp;
+    MyString kleeneStarExp;
     for (int i = 0; i < kleeneStarParts.size(); ++i) {
         if (i == 0) {
             kleeneStarExp = kleeneStarParts[i];
