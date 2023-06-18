@@ -240,6 +240,16 @@ void State::makeTotal(const Alphabet &alphabet, const Step &step) {
     }
 }
 
+bool State::isDeterministicState() const {
+    for (int i = 0; i < connections.size(); ++i) {
+        if (connections[i].getValue().size()>1){
+            return false;
+        }
+    }
+
+    return true;
+}
+
 
 
 

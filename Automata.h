@@ -42,6 +42,9 @@ public:
 
     void makeTotal();
 
+    bool isDeterministic() const;
+
+
 private:
     size_t findState(State::Id) const;
     State::Id findSpareId() const;
@@ -72,7 +75,7 @@ public:
 
     Automata& concat(const Automata &);
 
-    void determinization();
+    void determine();
 
     static Automata reverse(const Automata &);
     void reverse();
@@ -95,7 +98,7 @@ private:
     typedef MySet<State::Id> OldIds;
     typedef MyPair<OldIds, StatePtr> IdStateMap;
 
-    static StatePtr createDeterminizationState( MyVector<IdStateMap>&, State::Id&, const State::Steps&);
+    static StatePtr createDeterministicState( MyVector<IdStateMap>&, State::Id&, const State::Steps&);
 
 //    void cleanAutomata();
 };

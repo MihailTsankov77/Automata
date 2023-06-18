@@ -149,19 +149,18 @@ void detTest() {
     n.addConnection(3, 'b', 3);
     n.addConnection(3, 'c', 3);
 
-    std::string input = "abaaaacabaa";
+
     if (_PRINT_) {
-        if (n.accepts(input)) {
+        if (n.accepts("abaaaacabaa")) {
             std::cout << "Accept not det -> ";
         } else {
             std::cout << "Dont accept not det -> ";
         }
     }
 
-    n.determinization();
-
+    n.determine();
     if (_PRINT_) {
-        if (n.accepts(input)) {
+        if (n.accepts("abaaaacabaa")) {
             std::cout << "accept det" << std::endl;
         } else {
             std::cout << "dont accept det" << std::endl;
@@ -332,7 +331,8 @@ int main() {
 
     std::cout <<reg.getRegEx();
 
-    theDeathTest(detTest);
+    detTest();
+//    theDeathTest(detTest);
 
     return 0;
 }

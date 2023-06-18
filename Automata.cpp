@@ -205,7 +205,7 @@ Automata &Automata::concat(const Automata &other) {
 }
 //TODO make [] = to resize
 
-void Automata::determinization() {
+void Automata::determine() {
 
     State::Connections beginningStatesConnections;
 
@@ -237,7 +237,7 @@ void Automata::determinization() {
 
     for (int i = 0; i < optimizedConnections.size(); ++i) {
         newStatesIds[0].getValue()->addConnection(optimizedConnections[i].getKey(),
-                                                  createDeterminizationState(newStatesIds, currentId,
+                                                  createDeterministicState(newStatesIds, currentId,
                                                                              optimizedConnections[i].getValue()));
     }
 
@@ -251,7 +251,7 @@ void Automata::determinization() {
 }
 
 
-Automata::StatePtr Automata::createDeterminizationState(MyVector<IdStateMap> &newStatesIds, State::Id &currentId,
+Automata::StatePtr Automata::createDeterministicState(MyVector<IdStateMap> &newStatesIds, State::Id &currentId,
                                                         const State::Steps &steps) {
     State::Id _ID = currentId;
 
@@ -320,7 +320,7 @@ Automata::StatePtr Automata::createDeterminizationState(MyVector<IdStateMap> &ne
     ++currentId;
     for (int i = 0; i < optimizedConnections.size(); ++i) {
         newStatesIds[_ID].getValue()->addConnection(optimizedConnections[i].getKey(),
-                                                    createDeterminizationState(newStatesIds, currentId,
+                                                    createDeterministicState(newStatesIds, currentId,
                                                                                optimizedConnections[i].getValue()));
     }
 
@@ -376,7 +376,7 @@ Automata Automata::minimize(const Automata &other) {
 Automata &Automata::minimize() {
     for (int i = 0; i < 2; ++i) {
         reverse();
-        determinization();
+        determine();
     }
 
     return *this;
@@ -617,6 +617,16 @@ void Automata::printFinalStates() const {
         }
     }
     std::cout<<std::endl;
+}
+
+bool Automata::isDeterministic() const {
+    for (int i = 0; i < states.size(); ++i) {
+        if(!states[i]->isDeterministicState()){
+            return false;
+        }
+    }
+
+    return true;
 }
 
 

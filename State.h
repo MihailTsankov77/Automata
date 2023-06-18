@@ -47,7 +47,10 @@ public:
     char getStatus() const;
 
     typedef MySet<char> Alphabet;
-    void makeTotal(const Alphabet&,const Step&);
+
+    void makeTotal(const Alphabet &, const Step &);
+
+    bool isDeterministicState() const;
 
 private:
     char status = 0;
@@ -83,7 +86,7 @@ public:
 
     void printConnections() const;
 
-    static Connections optimizeConnections(const Connections&);
+    static Connections optimizeConnections(const Connections &);
 
 };
 
