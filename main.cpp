@@ -332,6 +332,7 @@ int main() {
 
     std::cout <<reg.getRegEx();
 
+    theDeathTest(detTest);
 
     return 0;
 }

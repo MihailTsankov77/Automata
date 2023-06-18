@@ -1,10 +1,9 @@
 #pragma once
 
 #include "State.h"
-
+#include "BaseComponents/MySet.hpp"
 //TODO: remove
 #include <string>
-#include <set>
 
 class Automata {
 private:
@@ -93,13 +92,10 @@ private:
     void createRegEx(Paths,  const StatePtr &, RegExes&) const;
     void checkForKleenePaths(Paths paths, const StatePtr &currentStep, State::Id searchId, RegExes &kleeneStartExes) const;
 
-    typedef std::set<State::Id> OldIds;
+    typedef MySet<State::Id> OldIds;
     typedef MyPair<OldIds, StatePtr> IdStateMap;
 
-
-
     static StatePtr createDeterminizationState( MyVector<IdStateMap>&, State::Id&, const State::Steps&);
-
 
 //    void cleanAutomata();
 };

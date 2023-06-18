@@ -3,10 +3,11 @@
 #include "BaseComponents/MyVector.hpp"
 #include "BaseComponents/MyPair.hpp"
 #include "BaseComponents/SharePtr.hpp"
+#include "BaseComponents/MySet.hpp"
+
 //TODO: switch
 #include <string>
 #include <vector>
-#include <set>
 
 enum StateStatus {
     final = 1,
@@ -45,7 +46,7 @@ public:
 
     char getStatus() const;
 
-    typedef std::set<char> Alphabet;
+    typedef MySet<char> Alphabet;
     void makeTotal(const Alphabet&,const Step&);
 
 private:
