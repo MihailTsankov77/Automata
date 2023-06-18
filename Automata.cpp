@@ -408,9 +408,13 @@ std::string Automata::getRegEx() const {
 
     RegExes regExes;
 
-    for (int i = 0; i < states.size(); ++i) {
-        if (states[i]->isBegging()) {
-            createRegEx(Paths(), states[i], regExes);
+    Automata minimal = Automata::minimize(*this);
+
+    minimal.print();
+
+    for (int i = 0; i < minimal.states.size(); ++i) {
+        if (minimal.states[i]->isBegging()) {
+            createRegEx(Paths(), minimal.states[i], regExes);
         }
     }
 
@@ -428,6 +432,102 @@ std::string Automata::getRegEx() const {
 }
 
 void Automata::createRegEx(Automata::Paths paths, const StatePtr &currentStep, Automata::RegExes &regExes) const {
+
+    paths.push(Path(currentStep->getId(), ""));
+
+    typedef MyVector<std::string> KleeneStarParts;
+    KleeneStarParts kleeneStarParts;
+    State::Connections notKleeneStarConnections;
+
+    for (int i = 0; i < currentStep->getConnections().size(); ++i) {
+        State::Connection connection = currentStep->getConnections()[i];
+
+        for (int j = 0; j < connection.getValue().size(); ++j) {
+            bool isKleene = false;
+            if (std::shared_ptr<State> thisStep = connection.getValue()[j].lock()) {
+                for (int k = 0; k < paths.size(); ++k) {
+                    if (paths[k].getKey() == thisStep->getId()) {
+                        //kleene star
+                        kleeneStarParts.push(connection.getKey() + paths[k].getValue());
+                        isKleene = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!isKleene) {
+                notKleeneStarConnections.push(connection);
+            }
+        }
+    }
+
+    Automata::RegExes externalKleeneStars;
+    // more recursion moreee
+    for (int i = 0; i < notKleeneStarConnections.size(); ++i) {
+        State::Connection connection = notKleeneStarConnections[i];
+
+        for (int j = 0; j < connection.getValue().size(); ++j) {
+            if (std::shared_ptr<State> thisStep = connection.getValue()[j].lock()) {
+
+
+                checkForKleenePaths(Paths (), thisStep, currentStep->getId(), externalKleeneStars);
+//TODO: clean
+                for (int k = 0; k < externalKleeneStars.size(); ++k) {
+                    kleeneStarParts.push(connection.getKey() + externalKleeneStars[k]);
+                }
+            }
+        }
+    }
+
+
+    //create kleene part
+    std::string kleeneStarExp;
+    for (int i = 0; i < kleeneStarParts.size(); ++i) {
+        if (i == 0) {
+            kleeneStarExp = kleeneStarParts[i];
+        } else {
+            kleeneStarExp = "(" + kleeneStarExp + "+" + kleeneStarParts[i] + ")";
+        }
+    }
+
+    kleeneStarExp = "(" + kleeneStarExp + ")*";
+
+    //update paths
+
+    for (int i = 0; i < paths.size() && kleeneStarParts.size() != 0; ++i) {
+        paths[i].getValue() += kleeneStarExp;
+    }
+
+    //add if final
+
+    if (currentStep->isFinal()) {
+        if (paths[0].getValue().length() != 0) {
+            regExes.push(paths[0].getValue());
+        }
+    }
+
+    //recursion
+    for (int i = 0; i < notKleeneStarConnections.size(); ++i) {
+        State::Connection connection = notKleeneStarConnections[i];
+
+        for (int j = 0; j < connection.getValue().size(); ++j) {
+            Paths stepPaths = paths;
+            for (int k = 0; k < stepPaths.size(); ++k) {
+                stepPaths[k].getValue() += connection.getKey();
+            }
+            if (std::shared_ptr<State> thisStep = connection.getValue()[j].lock()) {
+
+
+                createRegEx(stepPaths, thisStep, regExes);
+
+            }
+        }
+    }
+
+
+}
+
+void Automata::checkForKleenePaths(Automata::Paths paths, const Automata::StatePtr & currentStep, State::Id searchId, Automata::RegExes & externalKleeneStars) const {
 
     paths.push(Path(currentStep->getId(), ""));
 
@@ -476,35 +576,28 @@ void Automata::createRegEx(Automata::Paths paths, const StatePtr &currentStep, A
         paths[i].getValue() += kleeneStarExp;
     }
 
-    //add if final
-    bool shouldAddLetter = true;
-
-    if (currentStep->isFinal()) {
-        if (paths[0].getValue().length() != 0) {
-            regExes.push(paths[0].getValue());
-        } else {
-            shouldAddLetter = false;
-        }
-    }
 
     //recursion
     for (int i = 0; i < notKleeneStarConnections.size(); ++i) {
         State::Connection connection = notKleeneStarConnections[i];
 
         for (int j = 0; j < connection.getValue().size(); ++j) {
+            Paths stepPaths = paths;
+            for (int k = 0; k < stepPaths.size(); ++k) {
+                stepPaths[k].getValue() += connection.getKey();
+            }
             if (std::shared_ptr<State> thisStep = connection.getValue()[j].lock()) {
 
-                if (shouldAddLetter) {
-                    paths[paths.size() - 1].getValue() += connection.getKey();
+                if(thisStep->getId()!=searchId) {
+                    checkForKleenePaths(stepPaths, thisStep, searchId, externalKleeneStars);
+                }else{
+                    externalKleeneStars.push(stepPaths[0].getValue());
                 }
 
-                createRegEx(paths, thisStep, regExes);
 
             }
         }
     }
-
-
 }
 
 

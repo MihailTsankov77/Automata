@@ -315,25 +315,28 @@ int main() {
 
     Automata reg;
 
-//    reg.addState(0, begging);
-//    reg.addState(1);
-//    reg.addState(2, final);
-//
-//    reg.addConnection(0, 'a', 1);
-//    reg.addConnection(1, 'b', 2);
-////
-////    reg.addConnection(2, 'a', 0);
-
-    reg.addState(0, begging);
+    reg.addState(0, begging );
     reg.addState(1, final);
+    reg.addState(2);
+    reg.addState(3, final);
 
-    reg.addConnection(0, 'a', 0);
-    reg.addConnection(0, 'b', 1);
+    reg.addConnection(0, 'a', 1);
+    reg.addConnection(1, 'b', 2);
+    reg.addConnection(2, 'b', 1);
+    reg.addConnection(1, 'a', 3);
 
-    reg.addConnection(1, 'a', 1);
-    reg.addConnection(1, 'b', 0);
 
-    Automata a = fromRegEx("a((ab+ba))*");
+
+//    reg.addState(0, begging);
+//    reg.addState(1, final);
+//
+//    reg.addConnection(0, 'a', 0);
+//    reg.addConnection(0, 'b', 1);
+//
+//    reg.addConnection(1, 'a', 1);
+//    reg.addConnection(1, 'b', 0);
+//
+//    Automata a = fromRegEx("a((ab+ba))*");
 
 
     std::cout <<reg.getRegEx();

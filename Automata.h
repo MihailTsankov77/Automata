@@ -83,6 +83,7 @@ private:
     typedef MyPair<State::Id, std::string> Path;
     typedef MyVector<Path> Paths;
     void createRegEx(Paths,  const StatePtr &, RegExes&) const;
+    void checkForKleenePaths(Paths paths, const StatePtr &currentStep, State::Id searchId, RegExes &kleeneStartExes) const;
 
     typedef std::set<State::Id> OldIds;
     typedef MyPair<OldIds, StatePtr> IdStateMap;
