@@ -1,18 +1,5 @@
 #include "Automata.h"
 
-//TODO: remove
-template<typename T>
-T get_nth_element(std::set<T> &set_name, int index) {
-
-    T toReturn;
-    if (set_name.size() > index) {
-        auto it = next(set_name.begin(), index);
-        toReturn = *it;
-    }
-
-    return toReturn;
-}
-
 Automata::Automata(size_t num) : states(num) {}
 
 void Automata::addState(State::Id id) {
@@ -36,7 +23,7 @@ void Automata::addConnection(State::Id startId, char letter, State::Id endId) {
     size_t startIndex = findState(startId);
     size_t endIndex = findState(endId);
 
-    alphabet.insert(letter);
+    alphabet.push(letter);
 
     states[startIndex]->addConnection(letter, State::Step(states[endIndex]));
 }
@@ -237,7 +224,7 @@ void Automata::determinization() {
                 begStatus = begStatus | final;
             }
 
-            oldIds.insert(states[i]->getId());
+            oldIds.push(states[i]->getId());
         }
     }
 
@@ -275,19 +262,18 @@ Automata::StatePtr Automata::createDeterminizationState(MyVector<IdStateMap> &ne
     for (int i = 0; i < newStatesIds.size(); ++i) {
         OldIds existingStateIds = newStatesIds[i].getKey();
 
-        std::set<int> currentStepIds;
+        MySet<int> currentStepIds;
         for (int j = 0; j < steps.size(); ++j) {
             if (std::shared_ptr<State> thisStep = steps[j].lock()) {
 
-                currentStepIds.insert(thisStep->getId());
+                currentStepIds.push(thisStep->getId());
             }
 
         }
 
         for (int k = 0; k < currentStepIds.size() && existingStateIds.size() == currentStepIds.size(); ++k) {
 
-            //TODO: create [] on your set
-            if (!existingStateIds.count(get_nth_element(currentStepIds, k))) {
+            if (!existingStateIds.contains(currentStepIds[ k])) {
                 existAlreadyId = -1;
                 break;
             } else {
@@ -323,7 +309,7 @@ Automata::StatePtr Automata::createDeterminizationState(MyVector<IdStateMap> &ne
                 status = final;
             }
 
-            oldIds.insert(thisStep->getId());
+            oldIds.push(thisStep->getId());
         }
     }
 

@@ -3,7 +3,6 @@
 #include <utility>
 
 
-
 State::State(Id id) : State(id, 0) {}
 
 State::State(Id id, char status) : id(id), status(status) {}
@@ -225,30 +224,18 @@ char State::getStatus() const {
     return status;
 }
 
-//TODO: remove
-template<typename T>
-T get_nth_element(const std::set<T> &set_name, int index) {
 
-    T toReturn;
-    if (set_name.size() > index) {
-        auto it = next(set_name.begin(), index);
-        toReturn = *it;
-    }
-
-    return toReturn;
-}
-
-void State::makeTotal(const Alphabet& alphabet,const Step& step){
+void State::makeTotal(const Alphabet &alphabet, const Step &step) {
     for (int i = 0; i < alphabet.size(); ++i) {
         bool exist = false;
         for (int j = 0; j < connections.size(); ++j) {
-            if(connections[j].getKey()==get_nth_element<char>(alphabet, i)){
+            if (connections[j].getKey() == alphabet[i]) {
                 exist = true;
                 break;
             }
         }
-        if(!exist){
-            addConnection(get_nth_element<char>(alphabet, i), step);
+        if (!exist) {
+            addConnection(alphabet[i], step);
         }
     }
 }
