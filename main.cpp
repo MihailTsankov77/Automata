@@ -1,5 +1,6 @@
 #include <iostream>
 
+
 #include "Automata.h"
 
 bool _PRINT_ = true;
@@ -149,7 +150,7 @@ void detTest() {
     n.addConnection(3, 'b', 3);
     n.addConnection(3, 'c', 3);
 
-    std::string input = "abaaaacabaa";
+    MyString input = "abaaaacabaa";
     if (_PRINT_) {
         if (n.accepts(input)) {
             std::cout << "Accept not det -> ";
@@ -239,7 +240,7 @@ bool isAlphabet(char a) {
 }
 
 
-Automata createAutomata(std::string &regEx, bool hasOpenBracket = false) {
+Automata createAutomata(MyString &regEx, bool hasOpenBracket = false) {
     Automata toReturn;
     State::Id id = 0;
 
@@ -307,7 +308,7 @@ Automata createAutomata(std::string &regEx, bool hasOpenBracket = false) {
     return toReturn;
 }
 
-Automata fromRegEx(std::string regEx) {
+Automata fromRegEx(MyString regEx) {
     return createAutomata(regEx);
 }
 
