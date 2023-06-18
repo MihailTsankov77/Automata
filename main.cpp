@@ -333,7 +333,7 @@ int main() {
 
     std::cout <<reg.getRegEx();
 
-    theDeathTest(detTest);
+//    theDeathTest(detTest);
 
     return 0;
 }

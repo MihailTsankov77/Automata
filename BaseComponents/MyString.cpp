@@ -17,7 +17,6 @@ MyString operator+(const MyString& lhs, const MyString& rhs)
     strcat(result._data, lhs._data);
     strcat(result._data, rhs._data);
 
-    std::cout<<result<<" "<< lhs<< " "<<rhs<<std::endl;
     return result;
 }
 
