@@ -101,23 +101,23 @@ Automata Automata::onion(const Automata &left, const Automata &right) {
     return toReturn;
 }
 
-void Automata::onion(const Automata &other) {
+Automata& Automata::onion(const Automata &other) {
     for (int i = 0; i < other.states.size(); ++i) {
         // TODO: implement clone on sharePtr and use it
         states.push(other.states[i]);
+        states[states.size()-1]->changeId(findSpareId());
     }
+
+    return *this;
 }
 
 Automata Automata::kleeneStar(const Automata &other) {
-    Automata toReturn = other;
-    toReturn.kleeneStar();
-    return toReturn;
+    return Automata(other).kleeneStar();
 }
 
-void Automata::kleeneStar() {
+Automata& Automata::kleeneStar() {
     State::Id id = findSpareId();
     State::Connections allBeggingConnections;
-
     for (int i = 0; i < states.size(); ++i) {
         if (states[i]->isBegging()) {
             StatePtr begging = states[i];
@@ -127,7 +127,7 @@ void Automata::kleeneStar() {
 
             //TODO: implement concat
             for (int j = 0; j < beggingConnections.size(); ++j) {
-                allBeggingConnections.push(beggingConnections[i]);
+                allBeggingConnections.push(beggingConnections[j]);
             }
         }
     }
@@ -139,8 +139,10 @@ void Automata::kleeneStar() {
             states[i]->addConnections(allBeggingConnections);
         }
     }
+
 // TODO
 //    cleanAutomata();
+    return *this;
 }
 
 State::Id Automata::findSpareId() const {
@@ -161,9 +163,10 @@ Automata Automata::concat(const Automata &left, const Automata &right) {
     return toReturn;
 }
 
-void Automata::concat(const Automata & other) {
+Automata& Automata::concat(const Automata & other) {
     State::Connections allBeggingConnections;
-    bool hasFinalBegging = false;
+    bool hasFinalBegging = other.states.size()==0;
+
 
     //TODO use clone of state sharePtr clone and defined copy constructor to ...
     //TODO use clone of state sharePtr clone
@@ -201,12 +204,15 @@ void Automata::concat(const Automata & other) {
     //TODO: concat
 
     for (int i = 0; i < toConcat.states.size(); ++i) {
+        //TODO add only if there is more then one ptr pointing to it
         toConcat.states[i]->changeId(findSpareId());
         states.push(toConcat.states[i]);
     }
 
     // TODO
 //    cleanAutomata();
+
+    return *this;
 }
 //TODO make [] = to resize
 
@@ -392,6 +398,10 @@ void Automata::changeStatusToState(State::Id id, char status) {
     size_t index = findState(id);
 
     states[index]->changeStatus(status);
+}
+
+int Automata::statesSize() const {
+    return states.size();
 }
 
 // TODO: Questionable

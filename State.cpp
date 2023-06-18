@@ -219,5 +219,9 @@ void State::changeId(State::Id _id) {
     id = _id;
 }
 
+char State::getStatus() const {
+    return status;
+}
+
 //add erase weakPtr that don't have value and call this method on remove state
 // use filter

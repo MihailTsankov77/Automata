@@ -26,6 +26,7 @@ private:
 public:
     //TODO: move??
 
+    //TODO: write copy constr with clone ptr
     explicit State(Id);
 
     explicit State(Id, char);
@@ -40,6 +41,8 @@ public:
     void changeStatus(char);
 
     void changeId(State::Id);
+
+    char getStatus() const;
 
 private:
     char status = 0;

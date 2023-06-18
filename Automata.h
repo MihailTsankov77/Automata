@@ -43,6 +43,7 @@ private:
 
 public:
     bool isEmpty() const;
+    int statesSize() const;
 
     bool accepts(const std::string &) const;
 
@@ -50,15 +51,19 @@ public:
 public:
     static Automata onion(const Automata &, const Automata &);
 
-    void onion(const Automata &);
+    Automata& onion(const Automata &);
 
     static Automata kleeneStar(const Automata&);
 
-    void kleeneStar();
+    Automata& kleeneStar();
+
+    static Automata kleenePlus(const Automata&);
+
+    Automata& kleenePlus();
 
     static Automata concat(const Automata &, const Automata &);
 
-    void concat(const Automata &);
+    Automata& concat(const Automata &);
 
     void determinization();
 
