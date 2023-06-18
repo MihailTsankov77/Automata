@@ -264,7 +264,7 @@ Automata::StatePtr Automata::createDeterministicState(MyVector<IdStateMap> &newS
 
         MySet<int> currentStepIds;
         for (int j = 0; j < steps.size(); ++j) {
-            if (std::shared_ptr<State> thisStep = steps[j].lock()) {
+            if (SharedPtr<State> thisStep = steps[j].lock()) {
 
                 currentStepIds.push(thisStep->getId());
             }
@@ -297,7 +297,7 @@ Automata::StatePtr Automata::createDeterministicState(MyVector<IdStateMap> &newS
     OldIds oldIds;
     for (int i = 0; i < steps.size(); ++i) {
 
-        if (std::shared_ptr<State> thisStep = steps[i].lock()) {
+        if (SharedPtr<State> thisStep = steps[i].lock()) {
 
             //TODO: implement concat
             State::Connections stateConnections = thisStep->getConnections();
@@ -352,7 +352,7 @@ Automata Automata::reverse(const Automata &other) {
         State::Connections connections = other.states[i]->getConnections();
         for (int j = 0; j < connections.size(); ++j) {
             for (int k = 0; k < connections[j].getValue().size(); ++k) {
-                if (std::shared_ptr<State> thisStep = connections[j].getValue()[k].lock()) {
+                if (SharedPtr<State> thisStep = connections[j].getValue()[k].lock()) {
                     reverseAutomata.addConnection(thisStep->getId(), connections[j].getKey(), id);
                 }
             }
@@ -430,7 +430,7 @@ void Automata::createRegEx(Automata::Paths paths, const StatePtr &currentStep, A
 
         for (int j = 0; j < connection.getValue().size(); ++j) {
             bool isKleene = false;
-            if (std::shared_ptr<State> thisStep = connection.getValue()[j].lock()) {
+            if (SharedPtr<State> thisStep = connection.getValue()[j].lock()) {
                 for (int k = 0; k < paths.size(); ++k) {
                     if (paths[k].getKey() == thisStep->getId()) {
                         //kleene star
@@ -453,7 +453,7 @@ void Automata::createRegEx(Automata::Paths paths, const StatePtr &currentStep, A
         State::Connection connection = notKleeneStarConnections[i];
 
         for (int j = 0; j < connection.getValue().size(); ++j) {
-            if (std::shared_ptr<State> thisStep = connection.getValue()[j].lock()) {
+            if (SharedPtr<State> thisStep = connection.getValue()[j].lock()) {
 
 
                 checkForKleenePaths(Paths (), thisStep, currentStep->getId(), externalKleeneStars);
@@ -501,7 +501,7 @@ void Automata::createRegEx(Automata::Paths paths, const StatePtr &currentStep, A
             for (int k = 0; k < stepPaths.size(); ++k) {
                 stepPaths[k].getValue() += connection.getKey();
             }
-            if (std::shared_ptr<State> thisStep = connection.getValue()[j].lock()) {
+            if (SharedPtr<State> thisStep = connection.getValue()[j].lock()) {
 
 
                 createRegEx(stepPaths, thisStep, regExes);
@@ -526,7 +526,7 @@ void Automata::checkForKleenePaths(Automata::Paths paths, const Automata::StateP
 
         for (int j = 0; j < connection.getValue().size(); ++j) {
             bool isKleene = false;
-            if (std::shared_ptr<State> thisStep = connection.getValue()[j].lock()) {
+            if (SharedPtr<State> thisStep = connection.getValue()[j].lock()) {
                 for (int k = 0; k < paths.size(); ++k) {
                     if (paths[k].getKey() == thisStep->getId()) {
                         //kleene star
@@ -572,7 +572,7 @@ void Automata::checkForKleenePaths(Automata::Paths paths, const Automata::StateP
             for (int k = 0; k < stepPaths.size(); ++k) {
                 stepPaths[k].getValue() += connection.getKey();
             }
-            if (std::shared_ptr<State> thisStep = connection.getValue()[j].lock()) {
+            if (SharedPtr<State> thisStep = connection.getValue()[j].lock()) {
 
                 if(thisStep->getId()!=searchId) {
                     checkForKleenePaths(stepPaths, thisStep, searchId, externalKleeneStars);

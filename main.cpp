@@ -312,29 +312,33 @@ Automata fromRegEx(std::string regEx) {
 
 int main() {
 
-    Automata reg;
+    theDeathTest(allTests);
 
-    reg.addState(0, beginning );
-    reg.addState(1);
-    reg.addState(2);
-    reg.addState(3 , final);
 
-    reg.addConnection(0, 'a', 1);
-    reg.addConnection(1, 'b', 2);
-    reg.addConnection(2, 'b', 1);
-    reg.addConnection(1, 'a', 3);
-
-    reg.makeTotal();
-
-    reg.print();
-    reg.printBeginningStates();
-
-    std::cout <<reg.getRegEx()<<std::endl;
-
-    std::cout<<reg.acceptsWords();
+//    Automata reg;
+//
+//    reg.addState(0, beginning );
+//    reg.addState(1);
+//    reg.addState(2);
+//    reg.addState(3 , final);
+//
+//    reg.addConnection(0, 'a', 1);
+//    reg.addConnection(1, 'b', 2);
+//    reg.addConnection(2, 'b', 1);
+//    reg.addConnection(1, 'a', 3);
+//
+//    reg.makeTotal();
+//
+//    reg.print();
+//    reg.printBeginningStates();
+//
+//    std::cout <<reg.getRegEx()<<std::endl;
+//
+//    std::cout<<reg.acceptsWords();
 //    detTest();
 //    theDeathTest(detTest);
 
     return 0;
 }
+
 

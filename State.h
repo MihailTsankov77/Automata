@@ -2,8 +2,8 @@
 
 #include "BaseComponents/MyVector.hpp"
 #include "BaseComponents/MyPair.hpp"
-#include "BaseComponents/SharePtr.hpp"
 #include "BaseComponents/MySet.hpp"
+#include "BaseComponents/MyWeakPtr.hpp"
 
 //TODO: switch
 #include <string>
@@ -18,7 +18,7 @@ class State {
 public:
     typedef int Id;
 
-    typedef std::weak_ptr<State> Step;
+    typedef WeakPtr<State> Step;
     typedef MyVector<Step> Steps;
     typedef MyPair<char, Steps> Connection;
     typedef MyVector<Connection> Connections;

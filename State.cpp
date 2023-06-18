@@ -76,7 +76,7 @@ bool State::accepts(std::string input) const {
             Steps nextSteps = connections[i].getValue();
 
             for (int j = 0; j < nextSteps.size(); ++j) {
-                if (std::shared_ptr<State> thisStep = nextSteps[j].lock()) {
+                if (SharedPtr<State> thisStep = nextSteps[j].lock()) {
 
                     bool isAccepted = thisStep->accepts(nextInput);
 
@@ -158,7 +158,7 @@ void State::printConnections() const {
     for (int i = 0; i < connections.size(); ++i) {
         std::cout << connections[i].getKey() << " -> ";
         for (int j = 0; j < connections[i].getValue().size(); ++j) {
-            if (std::shared_ptr<State> thisStep = connections[i].getValue()[j].lock()) {
+            if (SharedPtr<State> thisStep = connections[i].getValue()[j].lock()) {
                 std::cout << thisStep->id;
                 if (j < connections[i].getValue().size() - 1) {
                     std::cout << ", ";
@@ -173,8 +173,8 @@ void State::printConnections() const {
 State::Connections State::optimizeConnections(const State::Connections &connections) {
 
     auto compare = [](const Step &a, const Step &b) {
-        if (std::shared_ptr<State> stepA = a.lock()) {
-            if (std::shared_ptr<State> stepB = b.lock()) {
+        if (SharedPtr<State> stepA = a.lock()) {
+            if (SharedPtr<State> stepB = b.lock()) {
                 return stepA->id == stepB->id;
             }
         }
@@ -252,9 +252,9 @@ bool State::isDeterministicState() const {
 
 bool State::acceptsWords() const {
     MySet<Id> ids;
-    acceptsWordsPr(ids);
-
+   return acceptsWordsPr(ids);
 }
+
 bool State::acceptsWordsPr(MySet<Id> & ids) const {
     if(ids.contains(getId())){
         return false;
@@ -272,7 +272,7 @@ bool State::acceptsWordsPr(MySet<Id> & ids) const {
         Steps nextSteps = connections[i].getValue();
 
         for (int j = 0; j < nextSteps.size(); ++j) {
-            if (std::shared_ptr<State> thisStep = nextSteps[j].lock()) {
+            if (SharedPtr<State> thisStep = nextSteps[j].lock()) {
 
                 if (thisStep->acceptsWordsPr(ids)) {
                     return true;

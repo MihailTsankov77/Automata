@@ -2,13 +2,15 @@
 
 #include "State.h"
 #include "BaseComponents/MySet.hpp"
+#include "BaseComponents/MySharePtr.hpp"
 //TODO: remove
 #include <string>
+
 
 class Automata {
 private:
     //TODO: remove
-    typedef std::shared_ptr<State> StatePtr;
+    typedef SharedPtr<State> StatePtr;
     typedef MyVector<StatePtr> States;
     States states;
     State::Alphabet alphabet;
