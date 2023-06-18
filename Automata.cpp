@@ -36,6 +36,8 @@ void Automata::addConnection(State::Id startId, char letter, State::Id endId) {
     size_t startIndex = findState(startId);
     size_t endIndex = findState(endId);
 
+    alphabet.insert(letter);
+
     states[startIndex]->addConnection(letter, State::Step(states[endIndex]));
 }
 
@@ -410,8 +412,6 @@ std::string Automata::getRegEx() const {
 
     Automata minimal = Automata::minimize(*this);
 
-    minimal.print();
-
     for (int i = 0; i < minimal.states.size(); ++i) {
         if (minimal.states[i]->isBegging()) {
             createRegEx(Paths(), minimal.states[i], regExes);
@@ -597,6 +597,19 @@ void Automata::checkForKleenePaths(Automata::Paths paths, const Automata::StateP
 
             }
         }
+    }
+}
+
+const State::Alphabet& Automata::getAlphabet() const {
+    return alphabet;
+}
+
+void Automata::makeTotal() {
+    State::Id id = findSpareId();
+
+    addState(id);
+    for (int i = 0; i < states.size(); ++i) {
+        states[i]->makeTotal(alphabet, states[states.size()-1]);
     }
 }
 

@@ -12,6 +12,7 @@ private:
     typedef std::shared_ptr<State> StatePtr;
     typedef MyVector<StatePtr> States;
     States states;
+    State::Alphabet alphabet;
 
 public:
     Automata() = default;
@@ -34,6 +35,10 @@ public:
     void deleteState(State::Id);
 
     void addConnection(State::Id, char, State::Id);
+
+    const State::Alphabet& getAlphabet() const;
+
+    void makeTotal();
 
 private:
     size_t findState(State::Id) const;

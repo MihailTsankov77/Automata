@@ -6,6 +6,7 @@
 //TODO: switch
 #include <string>
 #include <vector>
+#include <set>
 
 enum StateStatus {
     final = 1,
@@ -43,6 +44,9 @@ public:
     void changeId(State::Id);
 
     char getStatus() const;
+
+    typedef std::set<char> Alphabet;
+    void makeTotal(const Alphabet&,const Step&);
 
 private:
     char status = 0;

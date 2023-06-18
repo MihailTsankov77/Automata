@@ -325,23 +325,12 @@ int main() {
     reg.addConnection(2, 'b', 1);
     reg.addConnection(1, 'a', 3);
 
+    reg.makeTotal();
 
-
-//    reg.addState(0, begging);
-//    reg.addState(1, final);
-//
-//    reg.addConnection(0, 'a', 0);
-//    reg.addConnection(0, 'b', 1);
-//
-//    reg.addConnection(1, 'a', 1);
-//    reg.addConnection(1, 'b', 0);
-//
-//    Automata a = fromRegEx("a((ab+ba))*");
-
+    reg.print();
 
     std::cout <<reg.getRegEx();
 
-//    std::cout << fromRegEx(a.getRegEx()).accepts("abbaababba");
 
     return 0;
 }
