@@ -11,7 +11,7 @@
 
 enum StateStatus {
     final = 1,
-    begging = 2
+    beginning = 2
 };
 
 class State {
@@ -65,11 +65,11 @@ private:
     bool isStatus(StateStatus) const;
 
 public:
-    void makeBegging();
+    void makeBeginning();
 
-    void makeNotBegging();
+    void makeNotBeginning();
 
-    bool isBegging() const;
+    bool isBeginning() const;
 
     void makeFinal();
 

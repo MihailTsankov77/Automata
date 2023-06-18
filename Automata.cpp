@@ -52,7 +52,7 @@ bool Automata::isEmpty() const {
 
 bool Automata::accepts(const std::string &input) const {
     for (int i = 0; i < states.size(); ++i) {
-        if (states[i]->isBegging()) {
+        if (states[i]->isBeginning()) {
             bool accept = states[i]->accepts(input);
 
             if (accept) {
@@ -66,12 +66,12 @@ bool Automata::accepts(const std::string &input) const {
 
 void Automata::makeBegging(State::Id id) {
     size_t index = findState(id);
-    states[index]->makeBegging();
+    states[index]->makeBeginning();
 }
 
 void Automata::makeNotBegging(State::Id id) {
     size_t index = findState(id);
-    states[index]->makeNotBegging();
+    states[index]->makeNotBeginning();
 }
 
 void Automata::makeFinal(State::Id id) {
@@ -108,9 +108,9 @@ Automata &Automata::kleeneStar() {
     State::Id id = findSpareId();
     State::Connections allBeggingConnections;
     for (int i = 0; i < states.size(); ++i) {
-        if (states[i]->isBegging()) {
+        if (states[i]->isBeginning()) {
             StatePtr begging = states[i];
-            begging->makeNotBegging();
+            begging->makeNotBeginning();
 
             State::Connections beggingConnections = begging->getConnections();
 
@@ -121,7 +121,7 @@ Automata &Automata::kleeneStar() {
         }
     }
 
-    addState(id, begging | final);
+    addState(id, beginning | final);
 
     for (int i = 0; i < states.size(); ++i) {
         if (states[i]->isFinal()) {
@@ -163,9 +163,9 @@ Automata &Automata::concat(const Automata &other) {
 
     for (int i = 0; i < toConcat.states.size(); ++i) {
 
-        if (toConcat.states[i]->isBegging()) {
+        if (toConcat.states[i]->isBeginning()) {
             StatePtr begging = toConcat.states[i];
-            begging->makeNotBegging();
+            begging->makeNotBeginning();
 
             if (!hasFinalBegging && begging->isFinal()) {
                 hasFinalBegging = true;
@@ -209,11 +209,11 @@ void Automata::determine() {
 
     State::Connections beginningStatesConnections;
 
-    char begStatus = begging;
+    char begStatus = beginning;
 
     OldIds oldIds;
     for (int i = 0; i < states.size(); ++i) {
-        if (states[i]->isBegging()) {
+        if (states[i]->isBeginning()) {
             //TODO: implement concat
             State::Connections stateConnections = states[i]->getConnections();
             for (int j = 0; j < stateConnections.size(); ++j) {
@@ -339,11 +339,11 @@ Automata Automata::reverse(const Automata &other) {
 
     for (int i = 0; i < other.states.size(); ++i) {
         reverseAutomata.addState(other.states[i]->getId());
-        if (other.states[i]->isBegging()) {
+        if (other.states[i]->isBeginning()) {
             reverseAutomata.states[i]->makeFinal();
         }
         if (other.states[i]->isFinal()) {
-            reverseAutomata.states[i]->makeBegging();
+            reverseAutomata.states[i]->makeBeginning();
         }
     }
 
@@ -399,7 +399,7 @@ std::string Automata::getRegEx() const {
     Automata minimal = Automata::minimize(*this);
 
     for (int i = 0; i < minimal.states.size(); ++i) {
-        if (minimal.states[i]->isBegging()) {
+        if (minimal.states[i]->isBeginning()) {
             createRegEx(Paths(), minimal.states[i], regExes);
         }
     }
@@ -602,7 +602,7 @@ void Automata::makeTotal() {
 void Automata::printBeginningStates() const {
     std::cout<<"Beginning states: ";
     for (int i = 0; i < states.size(); ++i) {
-        if (states[i]->isBegging()){
+        if (states[i]->isBeginning()){
             std::cout<<states[i]->getId()<<" ";
         }
     }
@@ -631,7 +631,7 @@ bool Automata::isDeterministic() const {
 
 bool Automata::acceptsWords() const {
     for (int i = 0; i < states.size(); ++i) {
-        if (states[i]->isBegging()) {
+        if (states[i]->isBeginning()) {
             if (states[i]->acceptsWords()) {
                 return true;
             }
@@ -648,7 +648,7 @@ bool Automata::acceptsWords() const {
 //    for (int i = 0; i < states.size(); ++i) {
 //        //TODO: fix
 //        State::Step step = states[i];
-//        if(!states[i]->isBegging() && step->)
+//        if(!states[i]->isBeginning() && step->)
 //    }
 //}
 

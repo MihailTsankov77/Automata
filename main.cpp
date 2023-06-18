@@ -7,7 +7,7 @@ bool _PRINT_ = true;
 void basicTest() {
     Automata dfa;
 
-    dfa.addState(0, final | begging);
+    dfa.addState(0, final | beginning);
 
     dfa.addState(1, final);
     dfa.addState(2);
@@ -33,7 +33,7 @@ void basicTest() {
 void clearUselessTests() {
     Automata dfa;
 
-    dfa.addState(0, final | begging);
+    dfa.addState(0, final | beginning);
 
     dfa.addState(1, final);
     dfa.addState(2);
@@ -55,7 +55,7 @@ void clearUselessTests() {
 void unionTest() {
     Automata dfa1;
 
-    dfa1.addState(0, begging);
+    dfa1.addState(0, beginning);
     dfa1.addState(1, final);
 
     dfa1.addConnection(0, 'a', 1);
@@ -63,7 +63,7 @@ void unionTest() {
 
     Automata dfa2;
 
-    dfa2.addState(0, begging);
+    dfa2.addState(0, beginning);
     dfa2.addState(1, final);
 
     dfa2.addConnection(0, 'a', 1);
@@ -83,7 +83,7 @@ void unionTest() {
 void kleeneStarTest() {
     Automata dfa1;
 
-    dfa1.addState(0, begging);
+    dfa1.addState(0, beginning);
     dfa1.addState(1);
     dfa1.addState(2, final);
 
@@ -104,7 +104,7 @@ void kleeneStarTest() {
 void concatTest() {
     Automata dfa1;
 
-    dfa1.addState(0, begging);
+    dfa1.addState(0, beginning);
     dfa1.addState(1, final);
 
     dfa1.addConnection(0, 'a', 1);
@@ -112,7 +112,7 @@ void concatTest() {
 
     Automata dfa2;
 
-    dfa2.addState(0, begging);
+    dfa2.addState(0, beginning);
     dfa2.addState(1, final);
 
     dfa2.addConnection(0, 'a', 1);
@@ -132,7 +132,7 @@ void concatTest() {
 void detTest() {
     Automata n;
 
-    n.addState(0, begging);
+    n.addState(0, beginning);
     n.addState(1);
     n.addState(2);
     n.addState(3, final);
@@ -173,7 +173,7 @@ void detTest() {
 void reverseTest() {
     Automata dfa;
 
-    dfa.addState(0, begging);
+    dfa.addState(0, beginning);
 
     dfa.addState(1);
     dfa.addState(2);
@@ -246,7 +246,7 @@ Automata createAutomata(std::string &regEx, bool hasOpenBracket = false) {
         return toReturn;
     }
 
-    toReturn.addState(id++, begging | final);
+    toReturn.addState(id++, beginning | final);
 
 
     while (!regEx.empty()) {
@@ -314,7 +314,7 @@ int main() {
 
     Automata reg;
 
-    reg.addState(0, begging );
+    reg.addState(0, beginning );
     reg.addState(1);
     reg.addState(2);
     reg.addState(3 , final);

@@ -22,16 +22,16 @@ bool State::isStatus(StateStatus stat) const {
     return status & stat;
 }
 
-void State::makeBegging() {
-    makeStatus(begging);
+void State::makeBeginning() {
+    makeStatus(beginning);
 }
 
-void State::makeNotBegging() {
-    makeNotStatus(begging);
+void State::makeNotBeginning() {
+    makeNotStatus(beginning);
 }
 
-bool State::isBegging() const {
-    return isStatus(begging);
+bool State::isBeginning() const {
+    return isStatus(beginning);
 }
 
 void State::makeFinal() {
@@ -139,16 +139,16 @@ State::Id State::getId() const {
 void State::printConnections() const {
     std::cout << id << " [";
 
-    if (isBegging()) {
+    if (isBeginning()) {
         std::cout << "beginning";
     }
 
     if (isFinal()) {
-        if (isBegging()) {
+        if (isBeginning()) {
             std::cout << "/";
         }
         std::cout << "final";
-    } else if (!isBegging()) {
+    } else if (!isBeginning()) {
         std::cout << "-";
     }
 
