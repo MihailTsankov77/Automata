@@ -239,8 +239,6 @@ bool isAlphabet(char a) {
 }
 
 
-
-
 Automata createAutomata(std::string &regEx, bool hasOpenBracket = false) {
     Automata toReturn;
     State::Id id = 0;
@@ -261,9 +259,9 @@ Automata createAutomata(std::string &regEx, bool hasOpenBracket = false) {
                 toReturn.concat(createAutomata(regEx, true));
 
                 toReturn.concat(createAutomata(regEx, false));
-                if(hasOpenBracket && regEx[0]==')'){
+                if (hasOpenBracket && regEx[0] == ')') {
                     break;
-                }else{
+                } else {
                     return toReturn;
                 }
             }
@@ -309,120 +307,38 @@ Automata createAutomata(std::string &regEx, bool hasOpenBracket = false) {
     return toReturn;
 }
 
-Automata fromRegEx(std::string regEx){
+Automata fromRegEx(std::string regEx) {
     return createAutomata(regEx);
 }
 
 int main() {
 
+    Automata reg;
+
+//    reg.addState(0, begging);
+//    reg.addState(1);
+//    reg.addState(2, final);
 //
-//
-//
-    Automata test = fromRegEx("b((a+c))*b");  // Automata::concat(Automata::concat(Automata::concat(ab, aKL), ba), empty);
-
-    test.print();
-    if (test.accepts("baaaccccaab")) {
-        std::cout << "yessir" << std::endl;
-    } else {
-        std::cout << "stupid" << std::endl;
-    }
-    return 0;
-
-
-    Automata ab(3);
-    ab.addState(0, begging);
-    ab.addState(-1);
-    ab.addState(2, final);
-
-    ab.addConnection(0, 'a', -1);
-    ab.addConnection(-1, 'b', 2);
-
-    Automata ba = Automata::reverse(ab);
-
-//    ba.print();
-
-//    Automata cd(3);
-//    cd.addState(0, begging);
-//    cd.addState(1);
-//    cd.addState(2, final);
-//
-//    cd.addConnection(0, 'c', 1);
-//    cd.addConnection(1, 'd', 2);
-//
-//    cd.kleeneStar();
-//    cd.print();
-//    Automata::kleeneStar(cd);
-
-    Automata empty;
-    empty.addState(1, final | begging);
-
-//Automata aKL(2);
-//
-//aKL.addState(0, begging);
-//aKL.addState(1, final);
-//aKL.addConnection(0,'a',1);
-
-//aKL.kleeneStar();
-//aKL.print();
-//empty.print();
-//TODO: bug with no beginning
-
-
-//    Automata test2(3);
-//    test2.addState(1, begging);
-//    test2.addState(2);
-//    test2.addState(3, final);
-//
-//    test2.addConnection(1, 'a', 2);
-//    test2.addConnection(1, 'a', 3);
-//
-//    test2.addConnection(2, 'b', 3);
-//
-//    test2.kleeneStar().print();
-//    return 0;
-
-//    Automata::onion(ab, ba).minimize().print();
-    Automata a(2);
-    a.addState(0, begging);
-    a.addState(1, final);
-
-    a.addConnection(0, 'a', 1);
-
-    Automata a2(2);
-    a2.addState(0, begging);
-    a2.addState(1, final);
-
-    a2.addConnection(0, 'a', 1);
-//    Automata::concat(empty,Automata::kleeneStar(Automata::onion(a, ba))).print();
-    Automata big = Automata::concat(empty, Automata::kleeneStar(Automata::onion(a, ba)));
-//    Automata big =  Automata::concat(empty,Automata::kleeneStar(Automata::onion(a, ba)));
-//    big.reverse();
-
-//    1 [beginning/final] : a -> -2; b -> -4;
-//    -1 [-] : a -> -2;
-//    -2 [final] : a -> -2; b -> -4;
-//    -3 [final] : a -> -2; b -> -4;
-//    -4 [-] : a -> -3;
-//    -5 [-] : b -> -4;
-//    -6 [final] : a -> -2; b -> -4;
-
-    big.print();
+//    reg.addConnection(0, 'a', 1);
+//    reg.addConnection(1, 'b', 2);
 ////
-////
-////
-    if (big.accepts("aaaaabaaaba")) {
-        std::cout << "yessir" << std::endl;
-    } else {
-        std::cout << "stupid" << std::endl;
-    }
+////    reg.addConnection(2, 'a', 0);
 
-//    if(big.accepts("ab")){
-//        std::cout<<"stupid2"<<std::endl;
-//    }else{
-//        std::cout<<"yessir2"<<std::endl;
-//    }
+    reg.addState(0, begging);
+    reg.addState(1, final);
+
+    reg.addConnection(0, 'a', 0);
+    reg.addConnection(0, 'b', 1);
+
+    reg.addConnection(1, 'a', 1);
+    reg.addConnection(1, 'b', 0);
+
+    Automata a = fromRegEx("a((ab+ba))*");
 
 
+    std::cout <<reg.getRegEx();
+
+//    std::cout << fromRegEx(a.getRegEx()).accepts("abbaababba");
 
     return 0;
 }

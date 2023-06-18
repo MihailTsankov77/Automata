@@ -76,7 +76,14 @@ public:
     void print()const;
 
     void changeStatusToState(State::Id, char);
+
+    std::string getRegEx() const;
 private:
+    typedef MyVector<std::string> RegExes;
+    typedef MyPair<State::Id, std::string> Path;
+    typedef MyVector<Path> Paths;
+    void createRegEx(Paths,  const StatePtr &, RegExes&) const;
+
     typedef std::set<State::Id> OldIds;
     typedef MyPair<OldIds, StatePtr> IdStateMap;
 

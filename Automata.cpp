@@ -101,11 +101,11 @@ Automata Automata::onion(const Automata &left, const Automata &right) {
     return toReturn;
 }
 
-Automata& Automata::onion(const Automata &other) {
+Automata &Automata::onion(const Automata &other) {
     for (int i = 0; i < other.states.size(); ++i) {
         // TODO: implement clone on sharePtr and use it
         states.push(other.states[i]);
-        states[states.size()-1]->changeId(findSpareId());
+        states[states.size() - 1]->changeId(findSpareId());
     }
 
     return *this;
@@ -115,7 +115,7 @@ Automata Automata::kleeneStar(const Automata &other) {
     return Automata(other).kleeneStar();
 }
 
-Automata& Automata::kleeneStar() {
+Automata &Automata::kleeneStar() {
     State::Id id = findSpareId();
     State::Connections allBeggingConnections;
     for (int i = 0; i < states.size(); ++i) {
@@ -163,9 +163,9 @@ Automata Automata::concat(const Automata &left, const Automata &right) {
     return toReturn;
 }
 
-Automata& Automata::concat(const Automata & other) {
+Automata &Automata::concat(const Automata &other) {
     State::Connections allBeggingConnections;
-    bool hasFinalBegging = other.states.size()==0;
+    bool hasFinalBegging = other.states.size() == 0;
 
 
     //TODO use clone of state sharePtr clone and defined copy constructor to ...
@@ -403,6 +403,110 @@ void Automata::changeStatusToState(State::Id id, char status) {
 int Automata::statesSize() const {
     return states.size();
 }
+
+std::string Automata::getRegEx() const {
+
+    RegExes regExes;
+
+    for (int i = 0; i < states.size(); ++i) {
+        if (states[i]->isBegging()) {
+            createRegEx(Paths(), states[i], regExes);
+        }
+    }
+
+    std::string regEx;
+
+    for (int i = 0; i < regExes.size(); ++i) {
+        if (i == 0) {
+            regEx = regExes[i];
+        } else {
+            regEx = "(" + regEx + "+" + regExes[i] + ")";
+        }
+    }
+
+    return regEx;
+}
+
+void Automata::createRegEx(Automata::Paths paths, const StatePtr &currentStep, Automata::RegExes &regExes) const {
+
+    paths.push(Path(currentStep->getId(), ""));
+
+    typedef MyVector<std::string> KleeneStarParts;
+    KleeneStarParts kleeneStarParts;
+    State::Connections notKleeneStarConnections;
+
+    for (int i = 0; i < currentStep->getConnections().size(); ++i) {
+        State::Connection connection = currentStep->getConnections()[i];
+
+        for (int j = 0; j < connection.getValue().size(); ++j) {
+            bool isKleene = false;
+            if (std::shared_ptr<State> thisStep = connection.getValue()[j].lock()) {
+                for (int k = 0; k < paths.size(); ++k) {
+                    if (paths[k].getKey() == thisStep->getId()) {
+                        //kleene star
+                        kleeneStarParts.push(connection.getKey() + paths[k].getValue());
+                        isKleene = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!isKleene) {
+                notKleeneStarConnections.push(connection);
+            }
+        }
+    }
+
+
+    //create kleene part
+    std::string kleeneStarExp;
+    for (int i = 0; i < kleeneStarParts.size(); ++i) {
+        if (i == 0) {
+            kleeneStarExp = kleeneStarParts[i];
+        } else {
+            kleeneStarExp = "(" + kleeneStarExp + "+" + kleeneStarParts[i] + ")";
+        }
+    }
+
+    kleeneStarExp = "(" + kleeneStarExp + ")*";
+
+    //update paths
+
+    for (int i = 0; i < paths.size() && kleeneStarParts.size() != 0; ++i) {
+        paths[i].getValue() += kleeneStarExp;
+    }
+
+    //add if final
+    bool shouldAddLetter = true;
+
+    if (currentStep->isFinal()) {
+        if (paths[0].getValue().length() != 0) {
+            regExes.push(paths[0].getValue());
+        } else {
+            shouldAddLetter = false;
+        }
+    }
+
+    //recursion
+    for (int i = 0; i < notKleeneStarConnections.size(); ++i) {
+        State::Connection connection = notKleeneStarConnections[i];
+
+        for (int j = 0; j < connection.getValue().size(); ++j) {
+            if (std::shared_ptr<State> thisStep = connection.getValue()[j].lock()) {
+
+                if (shouldAddLetter) {
+                    paths[paths.size() - 1].getValue() += connection.getKey();
+                }
+
+                createRegEx(paths, thisStep, regExes);
+
+            }
+        }
+    }
+
+
+}
+
 
 // TODO: Questionable
 //void Automata::cleanAutomata() {
