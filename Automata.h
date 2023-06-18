@@ -38,6 +38,9 @@ public:
 
     const State::Alphabet& getAlphabet() const;
 
+    void printBeginningStates() const;
+    void printFinalStates() const;
+
     void makeTotal();
 
 private:

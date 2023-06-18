@@ -613,6 +613,26 @@ void Automata::makeTotal() {
     }
 }
 
+void Automata::printBeginningStates() const {
+    std::cout<<"Beginning states: ";
+    for (int i = 0; i < states.size(); ++i) {
+        if (states[i]->isBegging()){
+            std::cout<<states[i]->getId()<<" ";
+        }
+    }
+    std::cout<<std::endl;
+}
+
+void Automata::printFinalStates() const {
+    std::cout<<"Final states: ";
+    for (int i = 0; i < states.size(); ++i) {
+        if (states[i]->isFinal()){
+            std::cout<<states[i]->getId()<<" ";
+        }
+    }
+    std::cout<<std::endl;
+}
+
 
 // TODO: Questionable
 //void Automata::cleanAutomata() {

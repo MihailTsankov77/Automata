@@ -328,6 +328,7 @@ int main() {
     reg.makeTotal();
 
     reg.print();
+    reg.printBeginningStates();
 
     std::cout <<reg.getRegEx();
 
