@@ -206,6 +206,30 @@ void reverseTest() {
     }
 }
 
+void regExTest(){
+
+    Automata reg;
+
+    reg.addState(0, beginning );
+    reg.addState(1, final);
+    reg.addState(2);
+    reg.addState(3 , final);
+
+    reg.addConnection(0, 'a', 1);
+    reg.addConnection(1, 'b', 2);
+    reg.addConnection(2, 'b', 1);
+    reg.addConnection(1, 'a', 3);
+
+    reg.makeTotal();
+
+    if(_PRINT_) {
+        reg.print();
+        reg.printBeginningStates();
+
+        std::cout << reg.getRegEx() << std::endl;
+    }
+}
+
 void theDeathTest(void(*fun)()) {
     _PRINT_ = false;
     while (true) {
@@ -220,6 +244,7 @@ void allTests() {
     kleeneStarTest();
     concatTest();
     detTest();
+    regExTest();
 }
 
 
@@ -308,28 +333,7 @@ int main() {
 
 
 
-//    Automata reg;
-//
-//    reg.addState(0, beginning );
-//    reg.addState(1);
-//    reg.addState(2);
-//    reg.addState(3 , final);
-//
-//    reg.addConnection(0, 'a', 1);
-//    reg.addConnection(1, 'b', 2);
-//    reg.addConnection(2, 'b', 1);
-//    reg.addConnection(1, 'a', 3);
-//
-//    reg.makeTotal();
-//
-//    reg.print();
-//    reg.printBeginningStates();
-//
-//    std::cout <<reg.getRegEx()<<std::endl;
-//
-//    std::cout<<reg.acceptsWords();
-//    detTest();
-//    theDeathTest(detTest);
+allTests();
 
     return 0;
 }

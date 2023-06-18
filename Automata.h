@@ -3,8 +3,8 @@
 #include "State.h"
 #include "BaseComponents/MySet.hpp"
 #include "BaseComponents/MySharePtr.hpp"
+//TODO: replace with the string in the other branch after bug fixing
 #include <string>
-
 
 class Automata {
 private:
@@ -15,6 +15,14 @@ private:
 
 public:
     Automata() = default;
+
+    Automata(const Automata&);
+    Automata& operator=(const Automata&);
+
+private:
+    void copy(const Automata&);
+
+public:
 
     explicit Automata(size_t);
 

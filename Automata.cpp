@@ -618,3 +618,34 @@ bool Automata::acceptsWords() const {
 
     return false;
 }
+
+Automata::Automata(const Automata &other) {
+
+    copy(other);
+}
+
+void Automata::copy(const Automata & other)  {
+    for (int i = 0; i < other.states.size(); ++i) {
+        addState(other.states[i]->getId(), other.states[i]->getStatus());
+    }
+
+    for (int i = 0; i < other.states.size(); ++i) {
+        StatePtr currentStep = other.states[i];
+        for (int j = 0; j < currentStep->getConnections().size(); ++j) {
+            State::Connection connection = currentStep->getConnections()[j];
+            for (int k = 0; k < connection.getValue().size(); ++k) {
+                if (StatePtr thisStep = connection.getValue()[k].lock()) {
+                    addConnection(currentStep->getId(), connection.getKey(), thisStep->getId());
+                }
+            }
+        }
+    }
+}
+
+Automata &Automata::operator=(const Automata & other) {
+    if(this!=&other){
+        states = States(other.states.size());
+        copy(other);
+    }
+    return *this;
+}
