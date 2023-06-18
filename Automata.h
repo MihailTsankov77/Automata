@@ -3,13 +3,11 @@
 #include "State.h"
 #include "BaseComponents/MySet.hpp"
 #include "BaseComponents/MySharePtr.hpp"
-//TODO: remove
 #include <string>
 
 
 class Automata {
 private:
-    //TODO: remove
     typedef SharedPtr<State> StatePtr;
     typedef MyVector<StatePtr> States;
     States states;
@@ -20,7 +18,6 @@ public:
 
     explicit Automata(size_t);
 
-    //TODO: move??
     void addState(State::Id);
 
     void addState(State::Id, char);
@@ -32,8 +29,6 @@ public:
     void makeFinal(State::Id);
 
     void makeNotFinal(State::Id);
-
-    void deleteState(State::Id);
 
     void addConnection(State::Id, char, State::Id);
 
@@ -70,10 +65,6 @@ public:
 
     Automata& kleeneStar();
 
-    static Automata kleenePlus(const Automata&);
-
-    Automata& kleenePlus();
-
     static Automata concat(const Automata &, const Automata &);
 
     Automata& concat(const Automata &);
@@ -102,8 +93,6 @@ private:
     typedef MyPair<OldIds, StatePtr> IdStateMap;
 
     static StatePtr createDeterministicState( MyVector<IdStateMap>&, State::Id&, const State::Steps&);
-
-//    void cleanAutomata();
 };
 
 

@@ -1,4 +1,5 @@
 #include "Automata.h"
+#include <exception>
 
 Automata::Automata(size_t num) : states(num) {}
 
@@ -12,12 +13,6 @@ void Automata::addState(State::Id id, char status) {
     states.push(StatePtr(new State(id, status)));
 }
 
-void Automata::deleteState(State::Id id) {
-    size_t index = findState(id);
-
-    //TODO: implement
-//    states.erase(index, 1);
-}
 
 void Automata::addConnection(State::Id startId, char letter, State::Id endId) {
     size_t startIndex = findState(startId);
@@ -35,13 +30,13 @@ size_t Automata::findState(State::Id id) const {
         }
     }
 
-    throw "TODO: write exeption: No such id!!";
+    throw std::range_error("No such id!!");
 }
 
 void Automata::assertIdDontExist(State::Id id) const {
     for (int i = 0; i < states.size(); ++i) {
         if (states[i]->isSameId(id)) {
-            throw "TODO: write exeption: there is this shit id!!";
+            throw  std::range_error("we have this id!!");
         }
     }
 }
@@ -92,7 +87,6 @@ Automata Automata::onion(const Automata &left, const Automata &right) {
 
 Automata &Automata::onion(const Automata &other) {
     for (int i = 0; i < other.states.size(); ++i) {
-        // TODO: implement clone on sharePtr and use it
         states.push(other.states[i]);
         states[states.size() - 1]->changeId(findSpareId());
     }
@@ -114,7 +108,6 @@ Automata &Automata::kleeneStar() {
 
             State::Connections beggingConnections = begging->getConnections();
 
-            //TODO: implement concat
             for (int j = 0; j < beggingConnections.size(); ++j) {
                 allBeggingConnections.push(beggingConnections[j]);
             }
@@ -129,8 +122,6 @@ Automata &Automata::kleeneStar() {
         }
     }
 
-// TODO
-//    cleanAutomata();
     return *this;
 }
 
@@ -156,9 +147,6 @@ Automata &Automata::concat(const Automata &other) {
     State::Connections allBeggingConnections;
     bool hasFinalBegging = other.states.size() == 0;
 
-
-    //TODO use clone of state sharePtr clone and defined copy constructor to ...
-    //TODO use clone of state sharePtr clone
     Automata toConcat = other;
 
     for (int i = 0; i < toConcat.states.size(); ++i) {
@@ -173,7 +161,6 @@ Automata &Automata::concat(const Automata &other) {
 
             State::Connections beggingConnections = begging->getConnections();
 
-            //TODO: implement concat
             for (int j = 0; j < beggingConnections.size(); ++j) {
                 allBeggingConnections.push(beggingConnections[j]);
             }
@@ -190,20 +177,14 @@ Automata &Automata::concat(const Automata &other) {
         }
     }
 
-    //TODO: concat
-
     for (int i = 0; i < toConcat.states.size(); ++i) {
-        //TODO add only if there is more then one ptr pointing to it
         toConcat.states[i]->changeId(findSpareId());
         states.push(toConcat.states[i]);
     }
 
-    // TODO
-//    cleanAutomata();
 
     return *this;
 }
-//TODO make [] = to resize
 
 void Automata::determine() {
 
@@ -214,7 +195,6 @@ void Automata::determine() {
     OldIds oldIds;
     for (int i = 0; i < states.size(); ++i) {
         if (states[i]->isBeginning()) {
-            //TODO: implement concat
             State::Connections stateConnections = states[i]->getConnections();
             for (int j = 0; j < stateConnections.size(); ++j) {
                 beginningStatesConnections.push(stateConnections[j]);
@@ -299,7 +279,6 @@ Automata::StatePtr Automata::createDeterministicState(MyVector<IdStateMap> &newS
 
         if (SharedPtr<State> thisStep = steps[i].lock()) {
 
-            //TODO: implement concat
             State::Connections stateConnections = thisStep->getConnections();
             for (int j = 0; j < stateConnections.size(); ++j) {
                 statesConnections.push(stateConnections[j]);
@@ -457,7 +436,6 @@ void Automata::createRegEx(Automata::Paths paths, const StatePtr &currentStep, A
 
 
                 checkForKleenePaths(Paths (), thisStep, currentStep->getId(), externalKleeneStars);
-//TODO: clean
                 for (int k = 0; k < externalKleeneStars.size(); ++k) {
                     kleeneStarParts.push(connection.getKey() + externalKleeneStars[k]);
                 }
@@ -640,17 +618,3 @@ bool Automata::acceptsWords() const {
 
     return false;
 }
-
-
-
-// TODO: Questionable
-//void Automata::cleanAutomata() {
-//    for (int i = 0; i < states.size(); ++i) {
-//        //TODO: fix
-//        State::Step step = states[i];
-//        if(!states[i]->isBeginning() && step->)
-//    }
-//}
-
-
-//TODO: redefine copy const with share ptr clone

@@ -81,10 +81,6 @@ public:
 
     void addConnections(const Connections &);
 
-    void removeConnection(char, size_t);
-
-    void cleanConnections();
-
     const Connections &getConnections() const;
 
     void printConnections() const;

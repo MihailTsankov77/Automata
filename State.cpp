@@ -93,18 +93,7 @@ bool State::accepts(std::string input) const {
     return false;
 }
 
-void State::removeConnection(char letter, size_t index) {
-    //TODO: implement
-}
-
-void State::cleanConnections() {
-    //TODO: implement
-}
-
 void State::addConnections(const State::Connections &_connections) {
-    //TODO: clean the indentical connections
-    // TODO: implement Concat
-    //TODO: do as addConnection refactor
     for (int i = 0; i < _connections.size(); ++i) {
         bool find = false;
         for (int j = 0; j < connections.size(); ++j) {
@@ -124,8 +113,6 @@ void State::addConnections(const State::Connections &_connections) {
             connections.push(_connections[i]);
         }
     }
-
-    //TODO: use optimization
 }
 
 const State::Connections &State::getConnections() const {
@@ -190,7 +177,6 @@ State::Connections State::optimizeConnections(const State::Connections &connecti
 
         for (int j = 0; j < optimizedConnections.size(); ++j) {
             if (connections[i].isThisKey(optimizedConnections[j].getKey())) {
-                //TODO: implement concatUnique
                 Steps currSteps = connections[i].getValue();
                 for (int k = 0; k < currSteps.size(); ++k) {
                     if (optimizedConnections[j].getValue().count(currSteps[k], compare) == 0) {

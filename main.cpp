@@ -228,7 +228,6 @@ void allTests() {
 void printRules() {
     std::cout << "A -> K | P | U | BA | ø" << std::endl;
     std::cout << "K -> (A)*" << std::endl;
-    std::cout << "P -> (A)+" << std::endl;
     std::cout << "U -> (A+A)" << std::endl;
     std::cout << "B -> ALPHABET" << std::endl;
 }
@@ -278,12 +277,6 @@ Automata createAutomata(std::string &regEx, bool hasOpenBracket = false) {
                         toReturn.kleeneStar();
                         break;
                     }
-                    case '+': {
-                        //TODO after ptr copy
-//                        regEx[0] = '}';
-                        break;
-//
-                    }
                 }
 
                 return toReturn;
@@ -310,9 +303,9 @@ Automata fromRegEx(std::string regEx) {
     return createAutomata(regEx);
 }
 
+
 int main() {
 
-    theDeathTest(allTests);
 
 
 //    Automata reg;
