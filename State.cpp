@@ -242,12 +242,46 @@ void State::makeTotal(const Alphabet &alphabet, const Step &step) {
 
 bool State::isDeterministicState() const {
     for (int i = 0; i < connections.size(); ++i) {
-        if (connections[i].getValue().size()>1){
+        if (connections[i].getValue().size() > 1) {
             return false;
         }
     }
 
     return true;
+}
+
+bool State::acceptsWords() const {
+    MySet<Id> ids;
+    acceptsWordsPr(ids);
+
+}
+bool State::acceptsWordsPr(MySet<Id> & ids) const {
+    if(ids.contains(getId())){
+        return false;
+    }
+
+    ids.push(getId());
+
+    if(isFinal()){
+        return true;
+    }
+
+
+
+    for (int i = 0; i < connections.size(); ++i) {
+        Steps nextSteps = connections[i].getValue();
+
+        for (int j = 0; j < nextSteps.size(); ++j) {
+            if (std::shared_ptr<State> thisStep = nextSteps[j].lock()) {
+
+                if (thisStep->acceptsWordsPr(ids)) {
+                    return true;
+                }
+            }
+        }
+    }
+
+    return false;
 }
 
 

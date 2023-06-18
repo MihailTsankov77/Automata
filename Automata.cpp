@@ -629,6 +629,19 @@ bool Automata::isDeterministic() const {
     return true;
 }
 
+bool Automata::acceptsWords() const {
+    for (int i = 0; i < states.size(); ++i) {
+        if (states[i]->isBegging()) {
+            if (states[i]->acceptsWords()) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+
 
 // TODO: Questionable
 //void Automata::cleanAutomata() {

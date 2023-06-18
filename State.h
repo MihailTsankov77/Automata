@@ -52,7 +52,10 @@ public:
 
     bool isDeterministicState() const;
 
+    bool acceptsWords() const;
+
 private:
+    bool acceptsWordsPr(MySet<Id>&) const;
     char status = 0;
 
     void makeStatus(StateStatus);

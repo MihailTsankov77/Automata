@@ -44,6 +44,7 @@ public:
 
     bool isDeterministic() const;
 
+    bool acceptsWords() const;
 
 private:
     size_t findState(State::Id) const;

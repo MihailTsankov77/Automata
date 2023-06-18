@@ -315,9 +315,9 @@ int main() {
     Automata reg;
 
     reg.addState(0, begging );
-    reg.addState(1, final);
+    reg.addState(1);
     reg.addState(2);
-    reg.addState(3, final);
+    reg.addState(3 , final);
 
     reg.addConnection(0, 'a', 1);
     reg.addConnection(1, 'b', 2);
@@ -329,9 +329,10 @@ int main() {
     reg.print();
     reg.printBeginningStates();
 
-    std::cout <<reg.getRegEx();
+    std::cout <<reg.getRegEx()<<std::endl;
 
-    detTest();
+    std::cout<<reg.acceptsWords();
+//    detTest();
 //    theDeathTest(detTest);
 
     return 0;
