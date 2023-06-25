@@ -2,6 +2,7 @@
 
 #include "Main/Automata.h"
 #include "Factory/AutomataInterface.h"
+#include "Factory/Parsers/RegExParser.h"
 
 //TESTS
 bool _PRINT_ = true;
@@ -212,7 +213,7 @@ void regExTest(){
 
     Automata reg;
 
-    reg.addState(0, beginning );
+    reg.addState(0, beginning);
     reg.addState(1, final);
     reg.addState(2);
     reg.addState(3 , final);
@@ -260,9 +261,14 @@ int main() {
 //    allTests();
 //    theDeathTest(allTests);
 
-    consoleInput();
+//    consoleInput();
 
+    Automata ndfa = RegExParser::getInstance().parse("aaaba");
 
+    ndfa.print();
+
+    ndfa.minimize().print();
+    std::cout<<ndfa.getRegEx();
     return 0;
 }
 

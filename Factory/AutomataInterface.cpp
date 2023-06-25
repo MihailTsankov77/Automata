@@ -9,7 +9,7 @@ AutomataInterface &AutomataInterface::getInstance() {
 }
 
 bool AutomataInterface::readCommand() {
-    std::cout << "Choose command from: " << Commands::accepts << " to " << Commands::terminate << std::endl;
+    std::cout << "Choose command from: " << Commands::accepts << " to " << Commands::terminate<<"-> for more info type 13"<< std::endl;
     int command;
     std::cin >> command;
     switch (command) {
@@ -31,9 +31,9 @@ bool AutomataInterface::readCommand() {
         }
         case createFromText: {
             std::cout << "FilePath:";
-            std::string filePath;
+            MyString filePath;
             std::cin >> filePath;
-            automates.push(FileManager::getInstance().readFromFile(filePath));
+            automates.push(FileManager::getInstance().readFromFile(filePath.c_str()));
             break;
         }
         case saveInFile: {
@@ -48,13 +48,13 @@ bool AutomataInterface::readCommand() {
                 return true;
             }
 
-            FileManager::getInstance().saveInFile(filePath, automates[id]);
+            FileManager::getInstance().saveInFile(filePath.c_str(), automates[id]);
             break;
         }
         case createFromRegEx: {
             std::cout << "Write reg exp following the rules:" << std::endl;
             RegExParser::getInstance().printRules();
-            std::string regEx;
+            MyString regEx;
             std::cin>>regEx;
 
             automates.push(RegExParser::getInstance().parse(regEx));
@@ -64,22 +64,7 @@ bool AutomataInterface::readCommand() {
 
 
         case info:{
-            std::cout<<"accepts : "<<accepts<<std::endl;
-            std::cout<<"createFromText : "<<createFromText<<std::endl;
-            std::cout<<"saveInFile : "<<saveInFile<<std::endl;
-            std::cout<<"createFromRegEx : "<<createFromRegEx<<std::endl;
-            std::cout<<"getRegEx : "<<getRegEx<<std::endl;
-            std::cout<<"concat : "<<concat<<std::endl;
-            std::cout<<"onion : "<<onion<<std::endl;
-            std::cout<<"kleeneStar : "<<kleeneStar<<std::endl;
-            std::cout<<"determine : "<<determine<<std::endl;
-            std::cout<<"minimize : "<<minimize<<std::endl;
-            std::cout<<"reverse : "<<reverse<<std::endl;
-            std::cout<<"print : "<<print<<std::endl;
-            std::cout<<"total : "<<total<<std::endl;
-            std::cout<<"info : "<<info<<std::endl;
-            std::cout<<"terminate : "<<terminate<<std::endl;
-
+            printInfo();
             return true;
         }
 
@@ -101,7 +86,7 @@ void AutomataInterface::oneItemCommand(int command) {
     }
     switch (command) {
         case accepts : {
-            std::string input;
+            MyString input;
             std::cin >> input;
             if (automates[id].accepts(input)) {
                 std::cout << "Accepts!";
@@ -159,4 +144,22 @@ void AutomataInterface::twoItemCommand(int command) {
             return;
         }
     }
+}
+
+void AutomataInterface::printInfo() {
+    std::cout<<"accepts : "<<accepts<<std::endl;
+    std::cout<<"createFromText : "<<createFromText<<std::endl;
+    std::cout<<"saveInFile : "<<saveInFile<<std::endl;
+    std::cout<<"createFromRegEx : "<<createFromRegEx<<std::endl;
+    std::cout<<"getRegEx : "<<getRegEx<<std::endl;
+    std::cout<<"concat : "<<concat<<std::endl;
+    std::cout<<"onion : "<<onion<<std::endl;
+    std::cout<<"kleeneStar : "<<kleeneStar<<std::endl;
+    std::cout<<"determine : "<<determine<<std::endl;
+    std::cout<<"minimize : "<<minimize<<std::endl;
+    std::cout<<"reverse : "<<reverse<<std::endl;
+    std::cout<<"print : "<<print<<std::endl;
+    std::cout<<"total : "<<total<<std::endl;
+    std::cout<<"info : "<<info<<std::endl;
+    std::cout<<"terminate : "<<terminate<<std::endl;
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../../Main/Automata.h"
+#include "Factory/AutomataInterface.h"
 
 class FileManager {
 private:
@@ -13,7 +14,7 @@ private:
 public:
     static FileManager &getInstance();
 
-    Automata readFromFile(const std::string &) const;
+    Automata readFromFile(const MyString &) const;
 
-    void saveInFile(const std::string &, const Automata &) const;
+    void saveInFile(const MyString &, const Automata &) const;
 };

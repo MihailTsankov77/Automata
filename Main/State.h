@@ -4,10 +4,7 @@
 #include "BaseComponents/Pair/MyPair.hpp"
 #include "BaseComponents/Set/MySet.hpp"
 #include "BaseComponents/Ptrs/MyWeakPtr.hpp"
-
-//TODO: switch
-#include <string>
-#include <vector>
+#include "BaseComponents/String/MyString.h"
 
 enum StateStatus {
     final = 1,
@@ -31,7 +28,7 @@ public:
     explicit State(Id, char);
 
 public:
-    bool accepts(std::string) const;
+    bool accepts(MyString) const;
 
     bool isSameId(Id) const;
 
