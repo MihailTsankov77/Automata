@@ -4,7 +4,7 @@
 #include "BaseComponents/Set/MySet.hpp"
 #include "BaseComponents/Ptrs/MySharePtr.hpp"
 #include <fstream>
-//TODO: replace string with the string in the other branch after bug fixing
+#include "BaseComponents/String/MyString.h"
 
 class Automata {
 private:
@@ -63,7 +63,7 @@ public:
     bool isEmpty() const;
     int statesSize() const;
 
-    bool accepts(const std::string &) const;
+    bool accepts(const MyString &) const;
 
 
 public:
@@ -91,10 +91,10 @@ public:
 
     void changeStatusToState(State::Id, char);
 
-    std::string getRegEx() const;
+    MyString getRegEx() const;
 private:
-    typedef MyVector<std::string> RegExes;
-    typedef MyPair<State::Id, std::string> Path;
+    typedef MyVector<MyString> RegExes;
+    typedef MyPair<State::Id, MyString> Path;
     typedef MyVector<Path> Paths;
     void createRegEx(Paths,  const StatePtr &, RegExes&) const;
     void checkForKleenePaths(Paths paths, const StatePtr &currentStep, State::Id searchId, RegExes &kleeneStartExes) const;

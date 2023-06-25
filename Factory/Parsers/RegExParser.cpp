@@ -7,8 +7,8 @@ RegExParser &RegExParser::getInstance() {
     return factory;
 }
 
-Automata RegExParser::parse(const std::string &regEx) const {
-    std::string reg = regEx;
+Automata RegExParser::parse(const MyString &regEx) const {
+    MyString reg = regEx;
     return createAutomata(reg);
 }
 
@@ -23,19 +23,19 @@ bool RegExParser::isAlphabet(char a) const {
     return a >= 'a' && a <= 'z';
 }
 
-Automata RegExParser::createAutomata(std::string &regEx, bool hasOpenBracket) const {
+Automata RegExParser::createAutomata(MyString &regEx, bool hasOpenBracket) const {
     Automata toReturn;
     State::Id id = 0;
 
-    if (regEx.empty()) {
+    if (regEx.isEmpty()) {
         return toReturn;
     }
 
     toReturn.addState(id++, beginning | final);
 
-    while (!regEx.empty()) {
+    while (!regEx.isEmpty()) {
         char next = regEx[0];
-        regEx.erase(0, 1);
+        regEx = regEx.substr(1, regEx.length()-1);
 
         switch (next) {
             case '(': {
@@ -58,7 +58,7 @@ Automata RegExParser::createAutomata(std::string &regEx, bool hasOpenBracket) co
 
                 switch (symbol) {
                     case '*': {
-                        regEx.erase(0, 1);
+                        regEx = regEx.substr(1, regEx.length()-1);
                         toReturn.kleeneStar();
                         break;
                     }

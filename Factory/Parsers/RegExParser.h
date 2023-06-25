@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../../Main/Automata.h"
+#include "BaseComponents/String/MyString.h"
 
 class RegExParser {
 private:
@@ -12,12 +13,12 @@ private:
 
     bool isAlphabet(char) const;
 
-    Automata createAutomata(std::string &regEx, bool hasOpenBracket = false) const;
+    Automata createAutomata(MyString &regEx, bool hasOpenBracket = false) const;
 
 public:
     static RegExParser &getInstance();
 
-    Automata parse(const std::string &) const;
+    Automata parse(const MyString &) const;
 
     void printRules() const;
 };

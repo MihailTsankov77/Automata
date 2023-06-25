@@ -63,13 +63,13 @@ void State::addConnection(char letter, const Step &step) {
     connections.push(Connection(letter, newSteps));
 }
 
-bool State::accepts(std::string input) const {
+bool State::accepts(MyString input) const {
     if (input.length() == 0) {
         return isFinal();
     }
 
     char next = input[0];
-    std::string nextInput = input.substr(1);
+    MyString nextInput = input.substr(1, input.length()-1);
 
     for (int i = 0; i < connections.size(); ++i) {
         if (connections[i].isThisKey(next)) {

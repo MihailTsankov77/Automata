@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <stdexcept>
-
+//upgraded from Angel
 template<typename T>
 class SharedPtr {
     template<typename> friend

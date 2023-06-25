@@ -1,6 +1,7 @@
 
 #include "FileManager.h"
-#include "fstream";
+#include "fstream"
+#include "BaseComponents/String/MyString.h"
 
 FileManager &FileManager::getInstance() {
     static FileManager factory;
@@ -8,8 +9,8 @@ FileManager &FileManager::getInstance() {
 }
 
 
-Automata FileManager::readFromFile(const std::string &filePath) const {
-    std::fstream file(filePath, std::ios::in | std::ios::binary);
+Automata FileManager::readFromFile(const MyString &filePath) const {
+    std::fstream file(filePath.c_str(), std::ios::in | std::ios::binary);
     if (!file.is_open()) {
         throw std::runtime_error("FIX YOUR FILE, please, don't open");
     }
@@ -52,8 +53,8 @@ Automata FileManager::readFromFile(const std::string &filePath) const {
     return toReturn;
 }
 
-void FileManager::saveInFile(const std::string &filePath, const Automata &toSave) const {
-    std::fstream file(filePath, std::ios::in | std::ios::binary);
+void FileManager::saveInFile(const MyString &filePath, const Automata &toSave) const {
+    std::fstream file(filePath.c_str(), std::ios::in | std::ios::binary);
     if (!file.is_open()) {
         throw std::runtime_error("FIX YOUR FILE, please, don't open");
     }

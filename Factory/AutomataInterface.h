@@ -30,6 +30,7 @@ class AutomataInterface
 
     void oneItemCommand(int);
     void twoItemCommand(int);
+    void printInfo();
 public:
     static AutomataInterface & getInstance();
 
