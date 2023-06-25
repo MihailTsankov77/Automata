@@ -1,10 +1,10 @@
 #pragma once
 
 #include "State.h"
-#include "BaseComponents/MySet.hpp"
-#include "BaseComponents/MySharePtr.hpp"
-//TODO: replace with the string in the other branch after bug fixing
-#include <string>
+#include "BaseComponents/Set/MySet.hpp"
+#include "BaseComponents/Ptrs/MySharePtr.hpp"
+#include <fstream>
+//TODO: replace string with the string in the other branch after bug fixing
 
 class Automata {
 private:
@@ -51,6 +51,8 @@ public:
 
     bool acceptsWords() const;
 
+    void saveIds(std::fstream&) const;
+    void saveConnections(std::fstream&) const;
 private:
     size_t findState(State::Id) const;
     State::Id findSpareId() const;

@@ -1,16 +1,19 @@
-//
-// Created by Mihail Tsankov on 18.06.23.
-//
+#pragma once
 
-#ifndef AUTOMATA_FILEMANAGER_H
-#define AUTOMATA_FILEMANAGER_H
-
-
+#include "../../Main/Automata.h"
 
 class FileManager {
+private:
+    FileManager() = default;
 
+    FileManager(const FileManager &) = delete;
+
+    FileManager &operator=(const FileManager &) = delete;
+
+public:
+    static FileManager &getInstance();
+
+    Automata readFromFile(const std::string &) const;
+
+    void saveInFile(const std::string &, const Automata &) const;
 };
-
-
-
-#endif //AUTOMATA_FILEMANAGER_H

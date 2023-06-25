@@ -1,6 +1,6 @@
 #pragma once
 
-#include "MySharePtr.hpp"
+#include "BaseComponents/Ptrs/MySharePtr.hpp"
 #include <stdexcept>
 template <typename T>
 class WeakPtr

@@ -1,7 +1,9 @@
 #include <iostream>
 
-#include "Automata.h"
+#include "Main/Automata.h"
+#include "Factory/AutomataInterface.h"
 
+//TESTS
 bool _PRINT_ = true;
 
 void basicTest() {
@@ -247,93 +249,19 @@ void allTests() {
     regExTest();
 }
 
-
-//TODO: move to factory function
-
-void printRules() {
-    std::cout << "A -> K | P | U | BA | ø" << std::endl;
-    std::cout << "K -> (A)*" << std::endl;
-    std::cout << "U -> (A+A)" << std::endl;
-    std::cout << "B -> ALPHABET" << std::endl;
-}
-
-bool isAlphabet(char a) {
-    return a >= 'a' && a <= 'z';
-}
-
-
-Automata createAutomata(std::string &regEx, bool hasOpenBracket = false) {
-    Automata toReturn;
-    State::Id id = 0;
-
-    if (regEx.empty()) {
-        return toReturn;
-    }
-
-    toReturn.addState(id++, beginning | final);
-
-
-    while (!regEx.empty()) {
-        char next = regEx[0];
-        regEx.erase(0, 1);
-
-        switch (next) {
-            case '(': {
-                toReturn.concat(createAutomata(regEx, true));
-
-                toReturn.concat(createAutomata(regEx, false));
-                if (hasOpenBracket && regEx[0] == ')') {
-                    break;
-                } else {
-                    return toReturn;
-                }
-            }
-            case ')': {
-                if (!hasOpenBracket) {
-                    regEx = ')' + regEx;
-                    return toReturn;
-                }
-
-                char symbol = regEx[0];
-
-                switch (symbol) {
-                    case '*': {
-                        regEx.erase(0, 1);
-                        toReturn.kleeneStar();
-                        break;
-                    }
-                }
-
-                return toReturn;
-            }
-            case '+': {
-                return toReturn.onion(createAutomata(regEx, true));
-            }
-            default: {
-                if (!isAlphabet(next)) {
-                    throw "error";
-                }
-
-                toReturn.makeNotFinal(id - 1);
-                toReturn.addState(id++, final);
-                toReturn.addConnection(id - 2, next, id - 1);
-            }
-        }
-    }
-
-    return toReturn;
-}
-
-Automata fromRegEx(std::string regEx) {
-    return createAutomata(regEx);
+void consoleInput(){
+    while (AutomataInterface::getInstance().readCommand()){}
 }
 
 
 int main() {
+//    regExTest();
 
+//    allTests();
+//    theDeathTest(allTests);
 
+    consoleInput();
 
-allTests();
 
     return 0;
 }

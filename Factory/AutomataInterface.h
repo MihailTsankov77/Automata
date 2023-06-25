@@ -1,16 +1,37 @@
-//
-// Created by Mihail Tsankov on 18.06.23.
-//
+#pragma once
+#include "../BaseComponents/Vector/MyVector.hpp"
+#include "../Main/Automata.h"
 
-#ifndef AUTOMATA_AUTOMATAINTERFACE_H
-#define AUTOMATA_AUTOMATAINTERFACE_H
-
-
-
-class AutomataInterface {
-
+enum Commands{
+    accepts = 0,
+    createFromText,
+    saveInFile,
+    createFromRegEx,
+    getRegEx,
+    concat,
+    onion,
+    kleeneStar,
+    determine,
+    minimize,
+    reverse,
+    print,
+    total,
+    info,
+    terminate
 };
 
+class AutomataInterface
+{
+    MyVector<Automata> automates;
 
+    AutomataInterface() = default;
+    AutomataInterface(const AutomataInterface&) = delete;
+    AutomataInterface& operator=(const AutomataInterface&) = delete;
 
-#endif //AUTOMATA_AUTOMATAINTERFACE_H
+    void oneItemCommand(int);
+    void twoItemCommand(int);
+public:
+    static AutomataInterface & getInstance();
+
+    bool readCommand();
+};

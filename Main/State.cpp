@@ -1,7 +1,7 @@
-#include "State.h"
+#include "Main/State.h"
 
 #include <utility>
-
+#include <fstream>
 
 State::State(Id id) : State(id, 0) {}
 
@@ -270,9 +270,17 @@ bool State::acceptsWordsPr(MySet<Id> & ids) const {
     return false;
 }
 
-
-
-
-
-//add erase weakPtr that don't have value and call this method on remove state
-// use filter
+void State::saveConnections(std::fstream &file) const {
+    for (int i = 0; i < connections.size(); ++i) {
+        Connection connection = connections[i];
+        for (int j = 0; j < connection.getValue().size(); ++j) {
+            if (SharedPtr<State> thisStep = connection.getValue()[j].lock()){
+                file.write((const char*) &id, sizeof(State::Id));
+                char letter = connection.getKey();
+                file.write( &letter, sizeof(State::Id));
+                Id stepId = thisStep->id;
+                file.write((const char*) &stepId, sizeof(State::Id));
+            }
+        }
+    }
+}

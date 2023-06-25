@@ -36,7 +36,7 @@ size_t Automata::findState(State::Id id) const {
 void Automata::assertIdDontExist(State::Id id) const {
     for (int i = 0; i < states.size(); ++i) {
         if (states[i]->isSameId(id)) {
-            throw  std::range_error("we have this id!!");
+            throw std::range_error("we have this id!!");
         }
     }
 }
@@ -218,7 +218,7 @@ void Automata::determine() {
     for (int i = 0; i < optimizedConnections.size(); ++i) {
         newStatesIds[0].getValue()->addConnection(optimizedConnections[i].getKey(),
                                                   createDeterministicState(newStatesIds, currentId,
-                                                                             optimizedConnections[i].getValue()));
+                                                                           optimizedConnections[i].getValue()));
     }
 
 
@@ -232,7 +232,7 @@ void Automata::determine() {
 
 
 Automata::StatePtr Automata::createDeterministicState(MyVector<IdStateMap> &newStatesIds, State::Id &currentId,
-                                                        const State::Steps &steps) {
+                                                      const State::Steps &steps) {
     State::Id _ID = currentId;
 
 
@@ -253,7 +253,7 @@ Automata::StatePtr Automata::createDeterministicState(MyVector<IdStateMap> &newS
 
         for (int k = 0; k < currentStepIds.size() && existingStateIds.size() == currentStepIds.size(); ++k) {
 
-            if (!existingStateIds.contains(currentStepIds[ k])) {
+            if (!existingStateIds.contains(currentStepIds[k])) {
                 existAlreadyId = -1;
                 break;
             } else {
@@ -300,7 +300,7 @@ Automata::StatePtr Automata::createDeterministicState(MyVector<IdStateMap> &newS
     for (int i = 0; i < optimizedConnections.size(); ++i) {
         newStatesIds[_ID].getValue()->addConnection(optimizedConnections[i].getKey(),
                                                     createDeterministicState(newStatesIds, currentId,
-                                                                               optimizedConnections[i].getValue()));
+                                                                             optimizedConnections[i].getValue()));
     }
 
 
@@ -435,7 +435,7 @@ void Automata::createRegEx(Automata::Paths paths, const StatePtr &currentStep, A
             if (SharedPtr<State> thisStep = connection.getValue()[j].lock()) {
 
 
-                checkForKleenePaths(Paths (), thisStep, currentStep->getId(), externalKleeneStars);
+                checkForKleenePaths(Paths(), thisStep, currentStep->getId(), externalKleeneStars);
                 for (int k = 0; k < externalKleeneStars.size(); ++k) {
                     kleeneStarParts.push(connection.getKey() + externalKleeneStars[k]);
                 }
@@ -491,7 +491,8 @@ void Automata::createRegEx(Automata::Paths paths, const StatePtr &currentStep, A
 
 }
 
-void Automata::checkForKleenePaths(Automata::Paths paths, const Automata::StatePtr & currentStep, State::Id searchId, Automata::RegExes & externalKleeneStars) const {
+void Automata::checkForKleenePaths(Automata::Paths paths, const Automata::StatePtr &currentStep, State::Id searchId,
+                                   Automata::RegExes &externalKleeneStars) const {
 
     paths.push(Path(currentStep->getId(), ""));
 
@@ -552,9 +553,9 @@ void Automata::checkForKleenePaths(Automata::Paths paths, const Automata::StateP
             }
             if (SharedPtr<State> thisStep = connection.getValue()[j].lock()) {
 
-                if(thisStep->getId()!=searchId) {
+                if (thisStep->getId() != searchId) {
                     checkForKleenePaths(stepPaths, thisStep, searchId, externalKleeneStars);
-                }else{
+                } else {
                     externalKleeneStars.push(stepPaths[0].getValue());
                 }
 
@@ -564,7 +565,7 @@ void Automata::checkForKleenePaths(Automata::Paths paths, const Automata::StateP
     }
 }
 
-const State::Alphabet& Automata::getAlphabet() const {
+const State::Alphabet &Automata::getAlphabet() const {
     return alphabet;
 }
 
@@ -573,33 +574,33 @@ void Automata::makeTotal() {
 
     addState(id);
     for (int i = 0; i < states.size(); ++i) {
-        states[i]->makeTotal(alphabet, states[states.size()-1]);
+        states[i]->makeTotal(alphabet, states[states.size() - 1]);
     }
 }
 
 void Automata::printBeginningStates() const {
-    std::cout<<"Beginning states: ";
+    std::cout << "Beginning states: ";
     for (int i = 0; i < states.size(); ++i) {
-        if (states[i]->isBeginning()){
-            std::cout<<states[i]->getId()<<" ";
+        if (states[i]->isBeginning()) {
+            std::cout << states[i]->getId() << " ";
         }
     }
-    std::cout<<std::endl;
+    std::cout << std::endl;
 }
 
 void Automata::printFinalStates() const {
-    std::cout<<"Final states: ";
+    std::cout << "Final states: ";
     for (int i = 0; i < states.size(); ++i) {
-        if (states[i]->isFinal()){
-            std::cout<<states[i]->getId()<<" ";
+        if (states[i]->isFinal()) {
+            std::cout << states[i]->getId() << " ";
         }
     }
-    std::cout<<std::endl;
+    std::cout << std::endl;
 }
 
 bool Automata::isDeterministic() const {
     for (int i = 0; i < states.size(); ++i) {
-        if(!states[i]->isDeterministicState()){
+        if (!states[i]->isDeterministicState()) {
             return false;
         }
     }
@@ -624,7 +625,7 @@ Automata::Automata(const Automata &other) {
     copy(other);
 }
 
-void Automata::copy(const Automata & other)  {
+void Automata::copy(const Automata &other) {
     for (int i = 0; i < other.states.size(); ++i) {
         addState(other.states[i]->getId(), other.states[i]->getStatus());
     }
@@ -642,10 +643,43 @@ void Automata::copy(const Automata & other)  {
     }
 }
 
-Automata &Automata::operator=(const Automata & other) {
-    if(this!=&other){
+Automata &Automata::operator=(const Automata &other) {
+    if (this != &other) {
         states = States(other.states.size());
         copy(other);
     }
     return *this;
+}
+
+void Automata::saveIds(std::fstream &file) const {
+    size_t stateSize = statesSize();
+    file.write((const char *) &stateSize, sizeof(size_t));
+
+    for (int i = 0; i < stateSize; ++i) {
+        State::Id id = states[i]->getId();
+        file.write((const char *) &id, sizeof(State::Id));
+        int status = 1;
+        if (states[i]->isBeginning()) {
+            status *= 2;
+        }
+        if (states[i]->isFinal()) {
+            status *= 3;
+        }
+        file.write((const char *) &status, sizeof(status));
+    }
+}
+
+void Automata::saveConnections(std::fstream &file) const {
+    int connectionCount = 0;
+    for (int i = 0; i < statesSize(); ++i) {
+        for (int j = 0; j < states[i]->getConnections().size(); ++j) {
+            connectionCount += states[i]->getConnections()[j].getValue().size();
+        }
+    }
+
+    file.write((const char *) &connectionCount, sizeof(int));
+
+    for (int i = 0; i < statesSize(); ++i) {
+        states[i]->saveConnections(file);
+    }
 }

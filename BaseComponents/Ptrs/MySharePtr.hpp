@@ -66,7 +66,7 @@ public:
 
     T *operator->();
 
-    bool isInitlized() const;
+    bool isInitialized() const;
 
     operator bool() const;
 
@@ -194,6 +194,6 @@ const T *SharedPtr<T>::operator->() const {
 }
 
 template<typename T>
-bool SharedPtr<T>::isInitlized() const {
+bool SharedPtr<T>::isInitialized() const {
     return data != nullptr;
 }

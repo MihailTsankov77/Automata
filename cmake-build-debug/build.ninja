@@ -53,19 +53,40 @@ build CMakeFiles/Automata.dir/main.cpp.o: CXX_COMPILER__Automata_Debug /Users/mi
   OBJECT_DIR = CMakeFiles/Automata.dir
   OBJECT_FILE_DIR = CMakeFiles/Automata.dir
 
-build CMakeFiles/Automata.dir/State.cpp.o: CXX_COMPILER__Automata_Debug /Users/mihail.tsankov/Projects/chess/Automata/State.cpp || cmake_object_order_depends_target_Automata
-  DEP_FILE = CMakeFiles/Automata.dir/State.cpp.o.d
+build CMakeFiles/Automata.dir/Main/State.cpp.o: CXX_COMPILER__Automata_Debug /Users/mihail.tsankov/Projects/chess/Automata/Main/State.cpp || cmake_object_order_depends_target_Automata
+  DEP_FILE = CMakeFiles/Automata.dir/Main/State.cpp.o.d
   FLAGS = -g -arch arm64 -isysroot /Applications/Xcode-14.2.0.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics -std=gnu++14
   INCLUDES = -I/Users/mihail.tsankov/Projects/chess/Automata/.
   OBJECT_DIR = CMakeFiles/Automata.dir
-  OBJECT_FILE_DIR = CMakeFiles/Automata.dir
+  OBJECT_FILE_DIR = CMakeFiles/Automata.dir/Main
 
-build CMakeFiles/Automata.dir/Automata.cpp.o: CXX_COMPILER__Automata_Debug /Users/mihail.tsankov/Projects/chess/Automata/Automata.cpp || cmake_object_order_depends_target_Automata
-  DEP_FILE = CMakeFiles/Automata.dir/Automata.cpp.o.d
+build CMakeFiles/Automata.dir/Main/Automata.cpp.o: CXX_COMPILER__Automata_Debug /Users/mihail.tsankov/Projects/chess/Automata/Main/Automata.cpp || cmake_object_order_depends_target_Automata
+  DEP_FILE = CMakeFiles/Automata.dir/Main/Automata.cpp.o.d
   FLAGS = -g -arch arm64 -isysroot /Applications/Xcode-14.2.0.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics -std=gnu++14
   INCLUDES = -I/Users/mihail.tsankov/Projects/chess/Automata/.
   OBJECT_DIR = CMakeFiles/Automata.dir
-  OBJECT_FILE_DIR = CMakeFiles/Automata.dir
+  OBJECT_FILE_DIR = CMakeFiles/Automata.dir/Main
+
+build CMakeFiles/Automata.dir/Factory/AutomataInterface.cpp.o: CXX_COMPILER__Automata_Debug /Users/mihail.tsankov/Projects/chess/Automata/Factory/AutomataInterface.cpp || cmake_object_order_depends_target_Automata
+  DEP_FILE = CMakeFiles/Automata.dir/Factory/AutomataInterface.cpp.o.d
+  FLAGS = -g -arch arm64 -isysroot /Applications/Xcode-14.2.0.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics -std=gnu++14
+  INCLUDES = -I/Users/mihail.tsankov/Projects/chess/Automata/.
+  OBJECT_DIR = CMakeFiles/Automata.dir
+  OBJECT_FILE_DIR = CMakeFiles/Automata.dir/Factory
+
+build CMakeFiles/Automata.dir/Factory/Files/FileManager.cpp.o: CXX_COMPILER__Automata_Debug /Users/mihail.tsankov/Projects/chess/Automata/Factory/Files/FileManager.cpp || cmake_object_order_depends_target_Automata
+  DEP_FILE = CMakeFiles/Automata.dir/Factory/Files/FileManager.cpp.o.d
+  FLAGS = -g -arch arm64 -isysroot /Applications/Xcode-14.2.0.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics -std=gnu++14
+  INCLUDES = -I/Users/mihail.tsankov/Projects/chess/Automata/.
+  OBJECT_DIR = CMakeFiles/Automata.dir
+  OBJECT_FILE_DIR = CMakeFiles/Automata.dir/Factory/Files
+
+build CMakeFiles/Automata.dir/Factory/Parsers/RegExParser.cpp.o: CXX_COMPILER__Automata_Debug /Users/mihail.tsankov/Projects/chess/Automata/Factory/Parsers/RegExParser.cpp || cmake_object_order_depends_target_Automata
+  DEP_FILE = CMakeFiles/Automata.dir/Factory/Parsers/RegExParser.cpp.o.d
+  FLAGS = -g -arch arm64 -isysroot /Applications/Xcode-14.2.0.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics -std=gnu++14
+  INCLUDES = -I/Users/mihail.tsankov/Projects/chess/Automata/.
+  OBJECT_DIR = CMakeFiles/Automata.dir
+  OBJECT_FILE_DIR = CMakeFiles/Automata.dir/Factory/Parsers
 
 
 # =============================================================================
@@ -75,7 +96,7 @@ build CMakeFiles/Automata.dir/Automata.cpp.o: CXX_COMPILER__Automata_Debug /User
 #############################################
 # Link the executable Automata
 
-build Automata: CXX_EXECUTABLE_LINKER__Automata_Debug CMakeFiles/Automata.dir/main.cpp.o CMakeFiles/Automata.dir/State.cpp.o CMakeFiles/Automata.dir/Automata.cpp.o
+build Automata: CXX_EXECUTABLE_LINKER__Automata_Debug CMakeFiles/Automata.dir/main.cpp.o CMakeFiles/Automata.dir/Main/State.cpp.o CMakeFiles/Automata.dir/Main/Automata.cpp.o CMakeFiles/Automata.dir/Factory/AutomataInterface.cpp.o CMakeFiles/Automata.dir/Factory/Files/FileManager.cpp.o CMakeFiles/Automata.dir/Factory/Parsers/RegExParser.cpp.o
   FLAGS = -g -arch arm64 -isysroot /Applications/Xcode-14.2.0.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk
   OBJECT_DIR = CMakeFiles/Automata.dir
   POST_BUILD = :

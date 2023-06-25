@@ -1,9 +1,9 @@
 #pragma once
 
-#include "BaseComponents/MyVector.hpp"
-#include "BaseComponents/MyPair.hpp"
-#include "BaseComponents/MySet.hpp"
-#include "BaseComponents/MyWeakPtr.hpp"
+#include "BaseComponents/Vector/MyVector.hpp"
+#include "BaseComponents/Pair/MyPair.hpp"
+#include "BaseComponents/Set/MySet.hpp"
+#include "BaseComponents/Ptrs/MyWeakPtr.hpp"
 
 //TODO: switch
 #include <string>
@@ -26,9 +26,6 @@ private:
     Id id;
     Connections connections;
 public:
-    //TODO: move??
-
-    //TODO: write copy constr with clone ptr
     explicit State(Id);
 
     explicit State(Id, char);
@@ -84,6 +81,8 @@ public:
     const Connections &getConnections() const;
 
     void printConnections() const;
+
+    void saveConnections(std::fstream & file) const;
 
     static Connections optimizeConnections(const Connections &);
 

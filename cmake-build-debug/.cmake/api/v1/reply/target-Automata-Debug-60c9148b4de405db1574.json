@@ -68,7 +68,10 @@
 			[
 				0,
 				4,
-				6
+				6,
+				11,
+				13,
+				15
 			]
 		}
 	],
@@ -103,7 +106,10 @@
 			[
 				0,
 				4,
-				6
+				6,
+				11,
+				13,
+				15
 			]
 		},
 		{
@@ -116,7 +122,10 @@
 				5,
 				7,
 				8,
-				9
+				9,
+				10,
+				12,
+				14
 			]
 		}
 	],
@@ -130,50 +139,83 @@
 		},
 		{
 			"backtrace" : 1,
-			"path" : "BaseComponents/MyPair.hpp",
+			"path" : "BaseComponents/Pair/MyPair.hpp",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 1,
-			"path" : "BaseComponents/MyVector.hpp",
+			"path" : "BaseComponents/Vector/MyVector.hpp",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 1,
-			"path" : "State.h",
-			"sourceGroupIndex" : 1
-		},
-		{
-			"backtrace" : 1,
-			"compileGroupIndex" : 0,
-			"path" : "State.cpp",
-			"sourceGroupIndex" : 0
-		},
-		{
-			"backtrace" : 1,
-			"path" : "Automata.h",
+			"path" : "Main/State.h",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "Automata.cpp",
+			"path" : "Main/State.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"path" : "BaseComponents/MySet.hpp",
+			"path" : "Main/Automata.h",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 1,
-			"path" : "BaseComponents/MySharePtr.hpp",
+			"compileGroupIndex" : 0,
+			"path" : "Main/Automata.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "BaseComponents/Set/MySet.hpp",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 1,
-			"path" : "BaseComponents/MyWeakPtr.hpp",
+			"path" : "BaseComponents/Ptrs/MySharePtr.hpp",
 			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "BaseComponents/Ptrs/MyWeakPtr.hpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Factory/AutomataInterface.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Factory/AutomataInterface.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Factory/Files/FileManager.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Factory/Files/FileManager.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Factory/Parsers/RegExParser.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Factory/Parsers/RegExParser.cpp",
+			"sourceGroupIndex" : 0
 		}
 	],
 	"type" : "EXECUTABLE"
